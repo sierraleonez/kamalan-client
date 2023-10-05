@@ -1,0 +1,28 @@
+import type { Config } from 'tailwindcss'
+
+const config: Config = {
+  content: [
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  theme: {
+    extend: {
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'merica-to-pandan': `linear-gradient(to right, #FFFBBB, #889966)`,
+        'pandan-to-merica': `linear-gradient(to right, #889966, #FFFBBB)`,
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'hero-registry-bg': "url('/static/asset/hero/registry_bg.jpg')",
+        'hero-gift-bg': "url('/static/asset/hero/gift_bg.jpg')",
+      },
+      colors: {
+        pandan: '#889966',
+        merica: '#FFFBBB'
+      }
+    },
+  },
+  plugins: [],
+}
+export default config
