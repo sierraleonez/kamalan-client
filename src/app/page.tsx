@@ -1,5 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import { DM_Serif_Display } from "next/font/google";
+
+import footer_bg_url from "../../public/static/asset/footer_home_bg.png";
+import instagram_icon from "../../public/static/asset/social-media-icon/instagram_black.svg";
+import facebook_icon from "../../public/static/asset/social-media-icon/facebook_black.svg";
+import twitter_icon from "../../public/static/asset/social-media-icon/twitter_black.svg";
+import tiktok_icon from "../../public/static/asset/social-media-icon/tiktok_black.svg";
+
 import Image from "next/image";
 const DefaultFont = DM_Serif_Display({ subsets: ["latin"], weight: "400" });
 const DefaultFontItalic = DM_Serif_Display({
@@ -10,55 +17,157 @@ const DefaultFontItalic = DM_Serif_Display({
 const kamalan_logo_black = "/static/asset/kamalan_logo_black.svg";
 const love_thumbnail = "/static/asset/love.svg";
 const featured_image = "/static/asset/featured/secret_santa.png";
+
+function vendorLogoPathCreator(assetName: string): string {
+  return `/static/asset/vendor-logo/${assetName}_logo.svg`;
+}
+
+const kofitiere_logo_url = vendorLogoPathCreator("kofitiere");
+const honeylane_logo_url = vendorLogoPathCreator("honeylane");
+const breman_logo_url = vendorLogoPathCreator("breman");
+const dailycrumbs_logo_url = vendorLogoPathCreator("dailycrumbs");
+const happysheep_logo_url = vendorLogoPathCreator("happysheep");
+const vendorx_logo_url = vendorLogoPathCreator("vendorx");
+const cocos_logo_url = vendorLogoPathCreator("cocos");
+const provisions_logo_url = vendorLogoPathCreator("provisions");
+
+const ABOUT_US_FOOTER_ITEMS = [
+  "Tentang Kamalan",
+  "Tanya Jawab",
+  "Baca Catatan",
+  "Kontak",
+  "Jadi Rekan Kamalan",
+];
+const INFORMASI_FOOTER_ITEMS = ["Syarat & Ketentuan", "Pengiriman"];
+const SOCIAL_MEDIA_FOOTER_ITEMS = [
+  {
+    title: "Instagram",
+    asset: instagram_icon,
+  },
+  {
+    title: "Facebook",
+    asset: facebook_icon,
+  },
+  {
+    title: "Twitter",
+    asset: twitter_icon,
+  },
+  {
+    title: "Tik Tok",
+    asset: tiktok_icon,
+  },
+];
+
+const REKAN_KAMALAN_LOGOS = [
+  {
+    rowKey: "row-1",
+    className: "grid grid-cols-5",
+    items: [
+      {
+        asset: kofitiere_logo_url,
+        key: "kofitiere_logo",
+        className: "col-start-2 col-span-3",
+      },
+    ],
+  },
+  {
+    rowKey: "row-2",
+    className: "grid grid-cols-5",
+    items: [
+      {
+        asset: honeylane_logo_url,
+        key: "honeylane_logo",
+        className: "col-start-2 col-span-1",
+      },
+      {
+        asset: breman_logo_url,
+        key: "breman_logo",
+        className: "col-start-3 col-span-1",
+      },
+      {
+        asset: dailycrumbs_logo_url,
+        key: "dailycrumbs_logo",
+        className: "col-start-4 col-span-1",
+      },
+    ],
+  },
+  {
+    rowKey: "row-3",
+    className: "grid grid-cols-4",
+    items: [
+      {
+        asset: cocos_logo_url,
+        key: "cocos_logo",
+        className: "",
+      },
+      {
+        asset: happysheep_logo_url,
+        key: "happysheep_logo",
+        className: "",
+      },
+      {
+        asset: provisions_logo_url,
+        key: "provisions_logo",
+        className: "",
+      },
+      {
+        asset: vendorx_logo_url,
+        key: "vendorx_logo",
+        className: "",
+      },
+    ],
+  },
+];
 const PRODUK_LOKAL_LOGOS = [
   {
-    asset: "/static/asset/vendor-logo/dailycrumbs_logo.svg",
+    asset: dailycrumbs_logo_url,
     key: "dailycrumb_logo",
   },
   {
-    asset: "/static/asset/vendor-logo/kofitiere_logo.svg",
+    asset: kofitiere_logo_url,
     key: "kofitiere_logo",
   },
   {
-    asset: "/static/asset/vendor-logo/honeylane_logo.svg",
+    asset: honeylane_logo_url,
     key: "honeylane_logo",
   },
   {
-    asset: "/static/asset/vendor-logo/breman_logo.svg",
+    asset: breman_logo_url,
     key: "breman_logo",
   },
   {
-    asset: "/static/asset/vendor-logo/happysheep_logo.svg",
+    asset: happysheep_logo_url,
     key: "happysheep_logo",
   },
   {
-    asset: "/static/asset/vendor-logo/vendorx_logo.svg",
+    asset: vendorx_logo_url,
     key: "vendorx_logo",
   },
 ];
+
 type iCatatanKamalanEntries = {
   asset: string;
-  key: string;
+  item_key: string;
   title: string;
   desc: string;
 };
 const CATATAN_KAMALAN_ENTRIES: Array<iCatatanKamalanEntries> = [
   {
     asset: "/static/asset/catatan-kamalan/wedding_things.png",
-    key: "wedding_things",
-    title: "WEDDING THINGS",
+    item_key: "wedding_things",
+    title: "WEDDING",
     desc: "Hadiah Spesial untuk Acara Sakral",
   },
   {
     asset: "/static/asset/catatan-kamalan/birthday_pray.png",
-    key: "birthday_pray",
-    title: "BIRTHDAY PRAY",
+    item_key: "birthday_pray",
+    title: "BIRTHDAY",
     desc: "Kado Istimewa kepada dia yang Tercinta",
   },
   {
     asset: "/static/asset/catatan-kamalan/dearest_baby.png",
-    key: "dearest_baby",
-    title: "MY DEAREST BABY",
+    item_key: "dearest_baby",
+    title: "BABY SHOWER",
     desc: "Perlengkapan buat Si Kecil yang Kian Terampil",
   },
 ];
@@ -66,9 +175,10 @@ const CATATAN_KAMALAN_ENTRIES: Array<iCatatanKamalanEntries> = [
 export default function Home() {
   return (
     <>
-      <Box className="w-full grid gap-y-32 pb-10">
+      <Box className="w-full grid gap-y-32">
         <Hero />
         <Body />
+        <Footer />
       </Box>
     </>
   );
@@ -110,6 +220,8 @@ function Body() {
       <SolutionSection />
       <KamalanFeatured />
       <CatatanKamalan />
+      <RekanKamalan />
+      <Rekomendasikan />
     </Box>
   );
 }
@@ -127,38 +239,181 @@ function SolutionSection() {
   );
 }
 
-function CatatanKamalan() {
+function Footer() {
   return (
-    <Box className="grid gap-y-10">
-      <SectionTitle title="Catatan Kamalan" />
-      <Box className="px-40">
-      <Box className="flex gap-x-5">
-        {CATATAN_KAMALAN_ENTRIES.map((catatanEntry) => (
-          <CatatanKamalanCard {...catatanEntry} key={catatanEntry.key} />
-        ))}
-      </Box>
-
+    <Box className="relative h-[505px]">
+      <Image src={footer_bg_url} alt="footer_bg" className="absolute z-0" />
+      <Box className="absolute bottom-0 z-10 bg-kemiri/50 w-full h-3/5 px-40">
+        <Box className="grid grid-cols-7 pt-10 gap-x-8">
+          <Box className="col-start-2">
+            <AboutUsSection />
+          </Box>
+          <Box className="col-start-3">
+            <InformasiSection />
+          </Box>
+          <Box className="col-start-4">
+            <SocialMediaSection />
+          </Box>
+          <Box className="col-start-5 col-span-2">
+            <KawanKamalanSection />
+          </Box>
+        </Box>
       </Box>
     </Box>
   );
 }
 
-function CatatanKamalanCard({
-  asset,
-  desc,
-  key,
+function AboutUsSection() {
+  return (
+    <FooterSectionContainer title="Tentang Kami">
+      <Box className="grid gap-y-2">
+        {ABOUT_US_FOOTER_ITEMS.map((item, idx) => (
+          <Typography key={`about-us-${idx}`}>{item}</Typography>
+        ))}
+      </Box>
+    </FooterSectionContainer>
+  );
+}
+
+function InformasiSection() {
+  return (
+    <FooterSectionContainer title="Informasi">
+      <Box className="grid gap-y-2">
+        {INFORMASI_FOOTER_ITEMS.map((item, idx) => (
+          <Typography key={`about-us-${idx}`}>{item}</Typography>
+        ))}
+      </Box>
+    </FooterSectionContainer>
+  );
+}
+
+function SocialMediaSection() {
+  return (
+    <FooterSectionContainer title="Social Media">
+      <Box className="grid gap-y-3">
+        {SOCIAL_MEDIA_FOOTER_ITEMS.map((item, idx) => (
+          <Box className="flex gap-x-3" key={`social-media-${idx}`}>
+            <Image src={item.asset} alt="social_media_icon" />
+            <Typography>{item.title}</Typography>
+          </Box>
+        ))}
+      </Box>
+    </FooterSectionContainer>
+  );
+}
+
+function KawanKamalanSection() {
+  return (
+    <FooterSectionContainer title="#KawanKamalan">
+      <Box>
+        <Typography>
+          Tulis alamat email kamu di sini dan nantikan rekomendasi serta kejutan
+          menarik dari kami!
+        </Typography>
+        <Box className="border-pandan border bg-white px-8 py-2 w-full">
+          <Typography>Tulis alamat email</Typography>
+        </Box>
+      </Box>
+    </FooterSectionContainer>
+  );
+}
+
+function FooterSectionContainer({
   title,
-}: iCatatanKamalanEntries) {
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <Box className="grid gap-y-8">
+      <p className="text-pandan text-3xl">{title}</p>
+      {children}
+    </Box>
+  );
+}
+
+function Rekomendasikan() {
+  return (
+    <Box className="grid gap-y-10">
+      <SectionTitle title="Rekomendasikan" />
+      <Box className="px-40 flex justify-center">
+        <Box className="w-3/4 flex flex-col items-center gap-y-16">
+          <p className="text-pandan text-xl">
+            Kepada teman & keluargamu untuk membuat Registry dan jadikan acara
+            mereka lebih spesial!
+          </p>
+          <Box className="flex gap-x-4">
+            <Box className="border border-black py-2 px-12">
+              <p>kamalan.id/buatregistry</p>
+            </Box>
+            <Box className="bg-pandan py-2 px-12">
+              <p className="text-white">Salin Tautan</p>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
+function RekanKamalan() {
+  return (
+    <Box className="grid gap-y-10">
+      <SectionTitle title="Rekan Kamalan" />
+      <Box className="flex justify-center">
+        <Box className="w-3/4">
+          {REKAN_KAMALAN_LOGOS.map((row) => (
+            <Box
+              key={row.rowKey}
+              className={`${row.className} justify-items-center items-center`}
+            >
+              {row.items.map((vendorLogo) => (
+                <Box key={vendorLogo.key} className={vendorLogo.className}>
+                  <Image
+                    src={vendorLogo.asset}
+                    alt={vendorLogo.key}
+                    width={200}
+                    height={150}
+                  />
+                </Box>
+              ))}
+            </Box>
+          ))}
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
+function CatatanKamalan() {
+  return (
+    <Box className="grid gap-y-10">
+      <SectionTitle title="Catatan Kamalan" />
+      <Box className="px-40">
+        <Box className="grid grid-cols-3 gap-x-5">
+          {CATATAN_KAMALAN_ENTRIES.map((catatanEntry) => (
+            <CatatanKamalanCard {...catatanEntry} key={catatanEntry.item_key} />
+          ))}
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
+function CatatanKamalanCard({ asset, desc, title }: iCatatanKamalanEntries) {
   return (
     <Box>
-      <Box className="relative">
-        <Box className="absolute bg-white px-4 py-2 right-1/2 bottom-0">
-          <Typography>{title}</Typography>
+      <Box
+        sx={{ backgroundImage: `url(${asset})` }}
+        className="w-full min-h-[500px] flex items-end justify-center"
+      >
+        <Box className="bg-white px-4 py-2 max-w-[200px] translate-y-1/2">
+          <Typography className="tracking-[0.2em]">{title}</Typography>
         </Box>
-        <Image src={asset} alt={key} width={480} height={480} />
       </Box>
-      <Box className="bg-pandan flex items-center justify-center">
-        <p className="text-white text-md">{desc}</p>
+      <Box className="bg-pandan flex items-center justify-center py-8">
+        <p className="text-white text-2xl">{desc}</p>
       </Box>
     </Box>
   );
@@ -202,7 +457,7 @@ function SectionTitle({ title }: { title: string }) {
 function CepatMudahContent() {
   return (
     <Box className="flex items-center">
-      <SmallBorderGiftBox position="left">
+      <SmallBorderGiftBox position="l">
         <Typography className="text-3xl text-pandan indent-5">
           Tidak perlu menghabiskan waktu lagi untuk cari hadiah kesana-kemari
           sebab di Kamalan, kamu bisa leluasa pilah-pilih hadiah dan memabgikan
@@ -230,7 +485,7 @@ function BanggaProdukLokal() {
           ))}
         </Box>
       </LargeGradientBox>
-      <SmallBorderGiftBox position="right">
+      <SmallBorderGiftBox position="l">
         <Typography className="text-3xl text-pandan indent-5">
           Jangan khawatir mendapat ataupun memberikan kado yang ternyata tidak
           berkualitas, karena produk di Kamalan sudah dikurasi dari brand asli
@@ -245,7 +500,7 @@ function WithKamalanContent() {
   return (
     <Box className="flex items-center">
       <LargeGradientBox className="bg-merica-to-pandan" />
-      <SmallBorderGiftBox position="right">
+      <SmallBorderGiftBox position="r">
         <Typography className="text-3xl text-pandan indent-5">
           Ucapkan selamat tinggal ke tumpukan sama tiap tahun, karena kini kamu
           akan dapat hadiah sesuai dengan kebutuhan dan keinginanmu{" "}
@@ -264,7 +519,7 @@ function TaglineSpan({ children }: { children: React.ReactNode }) {
   );
 }
 
-type BoxPosition = "left" | "right";
+type BoxPosition = "l" | "r";
 function LargeGradientBox({
   children,
   className = "",
@@ -282,13 +537,10 @@ function SmallBorderGiftBox({
   children?: React.ReactElement;
   position: BoxPosition;
 }) {
-  // const BorderStyle = `border-${position === "left" ? "l" : "r"}-2`;
-  const tw =
-    "w-2/5 h-[480px] border-t-[6px] border-b-[6px] border-solid border-pandan relative flex items-center justify-center px-16" +
-    ` border-${position === "left" ? "l" : "r"}-[6px]`;
-
   return (
-    <Box className={tw}>
+    <Box
+      className={`w-2/5 h-[480px]  border-pandan relative flex items-center justify-center px-16  border-${position}-[6px]`}
+    >
       <Image
         src={love_thumbnail}
         alt="love_thumbnail"

@@ -19,7 +19,8 @@ const config: Config = {
       },
       colors: {
         pandan: '#889966',
-        merica: '#FFFBBB'
+        merica: '#FFFBBB',
+        kemiri: '#FFEECC'
       }
     },
   },
