@@ -8,7 +8,7 @@ import twitter_icon from "../../public/static/asset/social-media-icon/twitter_bl
 import tiktok_icon from "../../public/static/asset/social-media-icon/tiktok_black.svg";
 
 import Image from "next/image";
-const DefaultFont = DM_Serif_Display({ subsets: ["latin"], weight: "400" });
+import HomeHero from "@/components/organisms/home-hero";
 const DefaultFontItalic = DM_Serif_Display({
   subsets: ["latin"],
   weight: "400",
@@ -17,6 +17,13 @@ const DefaultFontItalic = DM_Serif_Display({
 const kamalan_logo_black = "/static/asset/kamalan_logo_black.svg";
 const love_thumbnail = "/static/asset/love.svg";
 const featured_image = "/static/asset/featured/secret_santa.png";
+
+import registry_hero_bg_url from "../../public/static/asset/hero/registry_bg.jpg";
+import gift_hero_bg_url from "../../public/static/asset/hero/gift_bg.jpg";
+import HomeContentBox, {
+  iHomeContent,
+} from "@/components/organisms/home-content-box";
+import SectionTitle from "@/components/atoms/section-title";
 
 function vendorLogoPathCreator(assetName: string): string {
   return `/static/asset/vendor-logo/${assetName}_logo.svg`;
@@ -176,41 +183,30 @@ export default function Home() {
   return (
     <>
       <Box className="w-full grid gap-y-32">
-        <Hero />
+        <HomeHero
+          leftHero={{
+            asset: registry_hero_bg_url,
+            title: (
+              <>
+                Gift <br />
+                Registry
+              </>
+            ),
+          }}
+          rightHero={{
+            asset: gift_hero_bg_url,
+            title: (
+              <>
+                Gift <br />
+                Shop
+              </>
+            ),
+          }}
+        />
         <Body />
         <Footer />
       </Box>
     </>
-  );
-}
-
-function Hero() {
-  return (
-    <Box className="w-full grid grid-cols-2">
-      <RegistryHero />
-      <GiftHero />
-    </Box>
-  );
-}
-
-function RegistryHero() {
-  return (
-    <Box className="flex bg-hero-registry-bg min-h-screen px-40 pb-44 items-end">
-      <p className={`${DefaultFont.className} text-pandan text-8xl`}>
-        Gift <br />
-        Registry
-      </p>
-    </Box>
-  );
-}
-
-function GiftHero() {
-  return (
-    <Box className=" flex bg-hero-gift-bg min-h-screen px-40 pb-44 items-end">
-      <p className={`${DefaultFont.className} text-white text-8xl`}>
-        Gift <br /> Shop
-      </p>
-    </Box>
   );
 }
 
@@ -268,7 +264,9 @@ function AboutUsSection() {
     <FooterSectionContainer title="Tentang Kami">
       <Box className="grid gap-y-2">
         {ABOUT_US_FOOTER_ITEMS.map((item, idx) => (
-          <Typography key={`about-us-${idx}`}>{item}</Typography>
+          <Typography fontFamily={"Helvetica Neue"} key={`about-us-${idx}`}>
+            {item}
+          </Typography>
         ))}
       </Box>
     </FooterSectionContainer>
@@ -426,13 +424,6 @@ function KamalanFeatured() {
       <Box className="px-40">
         <Box className="relative">
           <Image
-            src={love_thumbnail}
-            alt="love_thumbnail"
-            width={48}
-            height={48}
-            className="fill-white absolute left-10 top-8"
-          />
-          <Image
             src={featured_image}
             alt="featured_image"
             width={1600}
@@ -444,35 +435,39 @@ function KamalanFeatured() {
   );
 }
 
-function SectionTitle({ title }: { title: string }) {
-  return (
-    <Box className="flex items-center gap-x-8">
-      <Box className="grow bg-pandan h-1" />
-      <p className="text-5xl text-pandan max-w-full">{title}</p>
-      <Box className="bg-pandan h-1 grow" />
-    </Box>
-  );
-}
 
 function CepatMudahContent() {
-  return (
-    <Box className="flex items-center">
-      <SmallBorderGiftBox position="l">
-        <Typography className="text-3xl text-pandan indent-5">
+  const contents: Array<iHomeContent> = [
+    {
+      type: "small",
+      position: "l",
+      key: "cepat-mudah-small-box",
+      children: (
+        <Typography variant="h4" className="text-pandan indent-5">
           Tidak perlu menghabiskan waktu lagi untuk cari hadiah kesana-kemari
           sebab di Kamalan, kamu bisa leluasa pilah-pilih hadiah dan memabgikan
           Registry secara online <TaglineSpan>#CepatNanMudah</TaglineSpan>
         </Typography>
-      </SmallBorderGiftBox>
-      <LargeGradientBox className="bg-pandan-to-merica" />
-    </Box>
-  );
+      ),
+    },
+    {
+      type: "large",
+      position: "r",
+      key: "cepat-mudah-box",
+      className: "bg-pandan-to-merica",
+    },
+  ];
+  return <HomeContentBox contents={contents} />;
 }
 
 function BanggaProdukLokal() {
-  return (
-    <Box className="flex items-center">
-      <LargeGradientBox className="border-pandan border-[6px]">
+  const contents: Array<iHomeContent> = [
+    {
+      type: "large",
+      position: "l",
+      key: "bangga-produklokal-box",
+      className: "border-pandan border-[6px]",
+      children: (
         <Box className="grid grid-cols-3 justify-items-center items-center justify-center w-full h-full">
           {PRODUK_LOKAL_LOGOS.map((produkLogo) => (
             <Image
@@ -484,31 +479,46 @@ function BanggaProdukLokal() {
             />
           ))}
         </Box>
-      </LargeGradientBox>
-      <SmallBorderGiftBox position="l">
+      ),
+    },
+    {
+      type: "small",
+      position: "r",
+      key: "bangga-produklokal-small-box",
+      children: (
         <Typography className="text-3xl text-pandan indent-5">
           Jangan khawatir mendapat ataupun memberikan kado yang ternyata tidak
           berkualitas, karena produk di Kamalan sudah dikurasi dari brand asli
           Indonesia <TaglineSpan>#BanggaProdukLokal</TaglineSpan>
         </Typography>
-      </SmallBorderGiftBox>
-    </Box>
-  );
+      ),
+    },
+  ];
+  return <HomeContentBox contents={contents} />;
 }
 
 function WithKamalanContent() {
-  return (
-    <Box className="flex items-center">
-      <LargeGradientBox className="bg-merica-to-pandan" />
-      <SmallBorderGiftBox position="r">
-        <Typography className="text-3xl text-pandan indent-5">
+  const contents: Array<iHomeContent> = [
+    {
+      type: "large",
+      position: "l",
+      key: "withkamalanbox",
+      className: "bg-merica-to-pandan",
+    },
+    {
+      type: "small",
+      position: "r",
+      key: "withkamalansmallbox",
+      children: (
+        <Typography variant="h4" className="text-pandan indent-5">
           Ucapkan selamat tinggal ke tumpukan sama tiap tahun, karena kini kamu
           akan dapat hadiah sesuai dengan kebutuhan dan keinginanmu{" "}
           <TaglineSpan>#DenganKamalan</TaglineSpan>
         </Typography>
-      </SmallBorderGiftBox>
-    </Box>
-  );
+      ),
+    },
+  ];
+  return <HomeContentBox contents={contents} />;
 }
 
 function TaglineSpan({ children }: { children: React.ReactNode }) {
@@ -516,39 +526,5 @@ function TaglineSpan({ children }: { children: React.ReactNode }) {
     <span className={`${DefaultFontItalic.className} text-pandan`}>
       {children}
     </span>
-  );
-}
-
-type BoxPosition = "l" | "r";
-function LargeGradientBox({
-  children,
-  className = "",
-}: {
-  children?: React.ReactElement;
-  className?: string;
-}) {
-  return <Box className={`w-3/5 h-[600px] ${className}`}>{children}</Box>;
-}
-
-function SmallBorderGiftBox({
-  children,
-  position,
-}: {
-  children?: React.ReactElement;
-  position: BoxPosition;
-}) {
-  return (
-    <Box
-      className={`w-2/5 h-[480px]  border-pandan relative flex items-center justify-center px-16  border-${position}-[6px]`}
-    >
-      <Image
-        src={love_thumbnail}
-        alt="love_thumbnail"
-        width={92}
-        height={81}
-        className="absolute left-1/2 -top-[70px]"
-      />
-      {children}
-    </Box>
   );
 }
