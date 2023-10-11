@@ -422,13 +422,13 @@ function KamalanFeatured() {
     <>
       <SectionTitle title="Bulan ini di Kamalan" />
       <Box className="px-40">
-        <Box className="relative">
           <Image
             src={featured_image}
             alt="featured_image"
             width={1600}
             height={800}
           />
+        <Box className="relative">
         </Box>
       </Box>
     </>

@@ -17,9 +17,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <ClientThemeProvider>
-        <body className={DefaultFont.className}>{children}</body>
-      </ClientThemeProvider>
+      <body className={DefaultFont.className}>
+        <ClientThemeProvider>{children}</ClientThemeProvider>
+      </body>
     </html>
   );
 }
