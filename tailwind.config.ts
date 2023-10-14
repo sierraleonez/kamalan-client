@@ -21,7 +21,8 @@ const config: Config = {
         pandan: '#889966',
         merica: '#FFFBBB',
         kemiri: '#FFEECC',
-        seledri: '#BBCC77'
+        seledri: '#BBCC77',
+        gula: '#DDDDDD'
       }
     },
   },

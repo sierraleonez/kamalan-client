@@ -15,8 +15,26 @@ let theme = createTheme({
       DM_Serif_Italic.style.fontFamily,
     ].join(","),
   },
+  components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: "#BBCC77",
+            borderWidth: 1,
+            borderRadius: 0,
+          },
+          "& .MuiOutlinedInput-input": {
+            borderColor: '#889966',
+            paddingTop: 9,
+            paddingBottom: 9,
+          },
+        },
+      },
+    },
+  },
 });
-theme = responsiveFontSizes(theme)
+theme = responsiveFontSizes(theme);
 export default function ClientThemeProvider({
   children,
 }: {
