@@ -6,25 +6,38 @@ import carousel_img_3 from "assets/events/registry/wedding/carousel/3.jpg";
 import Image from "next/image";
 import ProductCarousel from "@/components/molecules/product-carousel";
 
-import product_1 from 'assets/events/registry/wedding/product/1.jpg'
-import product_2 from 'assets/events/registry/wedding/product/2.jpg'
-import product_3 from 'assets/events/registry/wedding/product/3.jpg'
+import product_1 from "assets/events/registry/wedding/product/1.jpg";
+import product_2 from "assets/events/registry/wedding/product/2.jpg";
+import product_3 from "assets/events/registry/wedding/product/3.jpg";
 import ProductCart from "@/components/molecules/cart";
+import LinkWrapper from "@/components/atoms/link-wrapper";
 
 const DUMMY_WEDDING_PRODUCTS = [
   {
-    name: 'product_1',
-    asset: product_1
+    name: "product_1",
+    asset: product_1,
+    title: "Cute Bouequet Indonesian Flowers",
+    price: "499.000",
+    seller: "Merekah Ruah",
+    location: "Bandung",
   },
   {
-    name: 'product_2',
-    asset: product_2
+    name: "product_2",
+    asset: product_2,
+    title: "Cute Bouequet Indonesian Flowers",
+    price: "499.000",
+    seller: "Merekah Ruah",
+    location: "Bandung",
   },
   {
-    name: 'product_3',
-    asset: product_3
+    name: "product_3",
+    asset: product_3,
+    title: "Cute Bouequet Indonesian Flowers",
+    price: "499.000",
+    seller: "Merekah Ruah",
+    location: "Bandung",
   },
-]
+];
 
 const FILTER_ITEMS = [
   {
@@ -128,7 +141,7 @@ const FILTER_ITEMS = [
 
 export default function EventShop() {
   return (
-    <Box className="grid grid-cols-6 gap-x-10">
+    <Box className="grid grid-cols-6 gap-x-10 pb-10">
       <Box className="col-span-1">
         <FilterAndSearchSection />
       </Box>
@@ -147,9 +160,37 @@ export default function EventShop() {
           </ProductCarousel>
         </Box>
         <Box className="grid grid-cols-3 gap-x-5">
-          {DUMMY_WEDDING_PRODUCTS.map(product => (
-            <Box key={product.name}>
-              <Image src={product.asset} alt="product_image"/>
+          {DUMMY_WEDDING_PRODUCTS.map((product) => (
+            <Box key={product.name} className="grid gap-y-2">
+              <LinkWrapper pushPath={product.name}>
+              <Image src={product.asset} alt="product_image" />
+              <Box>
+                <Typography
+                  fontFamily={"serif"}
+                  fontSize={20}
+                  className="font-bold"
+                >
+                  {product.title}
+                </Typography>
+                <Typography
+                  fontFamily={"serif"}
+                  fontSize={20}
+                  className="font-bold text-pandan"
+                >
+                  Rp {product.price}
+                </Typography>
+                <Typography fontFamily={"sans-serif"} fontSize={18}>
+                  {product.seller}
+                </Typography>
+                <Typography
+                  fontFamily={"sans-serif"}
+                  fontSize={16}
+                  className="font-italic"
+                >
+                  <i>{product.location}</i>
+                </Typography>
+              </Box>
+              </LinkWrapper>
             </Box>
           ))}
         </Box>
