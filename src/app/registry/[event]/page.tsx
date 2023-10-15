@@ -5,10 +5,11 @@ import carousel_img_2 from "assets/events/registry/wedding/carousel/2.jpg";
 import carousel_img_3 from "assets/events/registry/wedding/carousel/3.jpg";
 import Image from "next/image";
 import ProductCarousel from "@/components/molecules/product-carousel";
-import green_love from "assets/love.svg";
+
 import product_1 from 'assets/events/registry/wedding/product/1.jpg'
 import product_2 from 'assets/events/registry/wedding/product/2.jpg'
 import product_3 from 'assets/events/registry/wedding/product/3.jpg'
+import ProductCart from "@/components/molecules/cart";
 
 const DUMMY_WEDDING_PRODUCTS = [
   {
@@ -154,23 +155,7 @@ export default function EventShop() {
         </Box>
       </Box>
       <Box>
-        <RegistryCart />
-      </Box>
-    </Box>
-  );
-}
-
-function RegistryCart() {
-  return (
-    <Box className="grid gap-y-3">
-      <Typography variant="h5" className="text-pandan text-center">
-        Tulis nama Registry di sini!
-      </Typography>
-      <Box className="px-3 border-seledri border min-h-[600px] gap-y-2 flex flex-col justify-center items-center">
-          <Image src={green_love} alt="green_love" />
-          <Typography align="center">
-            Hadiah yang telah kamu pilih akan muncul di daftar ini!
-          </Typography>
+        <ProductCart />
       </Box>
     </Box>
   );

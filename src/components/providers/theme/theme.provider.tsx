@@ -8,7 +8,16 @@ const DM_Serif_Italic = DM_Serif_Display({
   style: "italic",
 });
 let theme = createTheme({
+  palette: {
+    primary: {
+      main: '#889966'
+    },
+    secondary: {
+      main: '#889966'
+    }
+  },
   typography: {
+
     fontFamily: [
       "Helvetica Neue",
       DM_Serif_Normal.style.fontFamily,

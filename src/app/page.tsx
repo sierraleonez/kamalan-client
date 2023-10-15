@@ -411,7 +411,7 @@ function CatatanKamalanCard({ asset, desc, title }: iCatatanKamalanEntries) {
         </Box>
       </Box>
       <Box className="bg-pandan flex items-center justify-center py-8">
-        <p className="text-white text-2xl">{desc}</p>
+        <p className="text-white text-center text-2xl">{desc}</p>
       </Box>
     </Box>
   );
