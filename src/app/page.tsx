@@ -24,6 +24,7 @@ import HomeContentBox, {
   iHomeContent,
 } from "@/components/organisms/home-content-box";
 import SectionTitle from "@/components/atoms/section-title";
+import { NextResponse } from "next/server";
 
 function vendorLogoPathCreator(assetName: string): string {
   return `/static/asset/vendor-logo/${assetName}_logo.svg`;
