@@ -55,11 +55,8 @@ export default function RegistryLayout({
           
         </Box>
       </Box>
-      <Box className="mt-40 relative">
-        <Box className="absolute z-0">
+      <Box className="mt-40">
         {children}
-
-        </Box>
       </Box>
     </Box>
   );
