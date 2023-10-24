@@ -5,7 +5,7 @@ import green_love from "assets/love.svg";
 
 export default function ProductCart() {
   return (
-    <Box className="grid gap-y-3">
+    <Box className="grid max-w-[242px] gap-y-3 fixed">
       <Typography variant="h5" className="text-pandan text-center">
         Tulis nama Registry di sini!
       </Typography>

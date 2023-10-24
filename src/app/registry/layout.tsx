@@ -45,15 +45,21 @@ export default function RegistryLayout({
   children: React.ReactNode
 }) {
   return (
-    <Box className="grid px-32 pt-9 w-full gap-y-4">
-      <Box className="flex flex-col items-center gap-y-3">
+    <Box className="grid w-full px-32 gap-y-4">
+      <Box className="fixed max-w-[1649px] z-50 bg-white w-full pt-9">
+        <Box className="flex flex-col items-center gap-y-3">
         <Box>
           <Image src={KamalanLogoGreen} alt="kamalan-logo" />
         </Box>
         <Breadcrumb crumbs={breadcrumb}/>
+          
+        </Box>
       </Box>
-      <Box>
+      <Box className="mt-40 relative">
+        <Box className="absolute z-0">
         {children}
+
+        </Box>
       </Box>
     </Box>
   );

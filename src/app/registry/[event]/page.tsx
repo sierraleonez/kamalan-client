@@ -195,7 +195,7 @@ export default function EventShop() {
           ))}
         </Box>
       </Box>
-      <Box>
+      <Box className="col-span-1 relative">
         <ProductCart />
       </Box>
     </Box>
@@ -204,7 +204,7 @@ export default function EventShop() {
 
 function FilterAndSearchSection() {
   return (
-    <Box className="grid gap-y-5">
+    <Box className="grid gap-y-5 fixed">
       <SearchBox />
       <FilterBox />
     </Box>
