@@ -22,7 +22,8 @@ const config: Config = {
         merica: '#FFFBBB',
         kemiri: '#FFEECC',
         seledri: '#BBCC77',
-        gula: '#DDDDDD'
+        gula: '#DDDDDD',
+        kunyit: '#FF9933'
       }
     },
   },

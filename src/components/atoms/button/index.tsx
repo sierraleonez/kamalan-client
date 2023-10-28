@@ -1,9 +1,9 @@
 "use client"
 
-import { Button } from "@mui/material"
-
-export default function CButton() {
+export default function CButton({ children }: { children: React.ReactNode }) {
   return (
-    <Button variant="contained">aaa</Button>
+    <button className="px-12 py-3 bg-pandan text-white w-fit">
+      {children}
+    </button>
   )
 }
