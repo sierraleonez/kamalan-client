@@ -45,7 +45,7 @@ export default function RegistryLayout({
   children: React.ReactNode
 }) {
   return (
-    <Box className="grid w-full px-32 gap-y-4">
+    <Box className="grid w-full gap-y-4">
       <Box className="fixed max-w-[1649px] z-50 bg-white w-full pt-9">
         <Box className="flex flex-col items-center gap-y-3">
         <Box>
@@ -55,7 +55,7 @@ export default function RegistryLayout({
           
         </Box>
       </Box>
-      <Box className="mt-40">
+      <Box className="mt-40 px-32">
         {children}
       </Box>
     </Box>
