@@ -23,7 +23,16 @@ const config: Config = {
         kemiri: '#FFEECC',
         seledri: '#BBCC77',
         gula: '#DDDDDD',
-        kunyit: '#FF9933'
+        kunyit: '#FF9933',
+        salam: '#667733',
+        wortel: '#667733',
+        emas: '#BB9933',
+        susu: '#FFFFFF',
+        kluwak: '#333333',
+        blau: '#77AAEE',
+        soga: '#CC1133',
+        talas: '#FF00EE',
+        
       }
     },
   },

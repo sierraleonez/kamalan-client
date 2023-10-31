@@ -3,7 +3,7 @@ import { Box, InputAdornment, OutlinedInput, Typography } from "@mui/material";
 import carousel_img_1 from "assets/events/registry/wedding/carousel/1.jpg";
 import carousel_img_2 from "assets/events/registry/wedding/carousel/2.jpg";
 import carousel_img_3 from "assets/events/registry/wedding/carousel/3.jpg";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import ProductCarousel from "@/components/molecules/product-carousel";
 
 import product_1 from "assets/events/registry/wedding/product/1.jpg";
@@ -11,6 +11,33 @@ import product_2 from "assets/events/registry/wedding/product/2.jpg";
 import product_3 from "assets/events/registry/wedding/product/3.jpg";
 import ProductCart from "@/components/molecules/cart";
 import LinkWrapper from "@/components/atoms/link-wrapper";
+
+type iFilterSections = Array<iFilterSection>;
+type iFilterItem = {
+  label: string;
+  value: string;
+};
+
+type iFilterSection = {
+  kind: string;
+  items: Array<iFilterItem>;
+};
+
+type iCarouselItemProps = {
+  src: StaticImageData;
+  alt: string;
+};
+
+type iProducts = Array<iProduct>;
+
+type iProduct = {
+  name: string;
+  asset: StaticImageData | string;
+  title: string;
+  price: string;
+  seller: string;
+  location: string;
+};
 
 const DUMMY_WEDDING_PRODUCTS = [
   {
@@ -39,103 +66,118 @@ const DUMMY_WEDDING_PRODUCTS = [
   },
 ];
 
-const FILTER_ITEMS = [
+const FILTER_SECTIONS: iFilterSections = [
   {
     kind: "Kategori",
-    children: [
+    items: [
       {
-        title: "Dekorasi Rumah",
+        label: "Dekorasi Rumah",
         value: "dekor",
       },
       {
-        title: "Alat Masak",
+        label: "Alat Masak",
         value: "masak",
       },
       {
-        title: "Kamar Tidur",
+        label: "Kamar Tidur",
         value: "kamar",
       },
       {
-        title: "Bath & Body",
+        label: "Bath & Body",
         value: "bath",
       },
       {
-        title: "Barang Couple",
+        label: "Barang Couple",
         value: "couple",
       },
     ],
   },
   {
     kind: "Jenis",
-    children: [
+    items: [
       {
-        title: "Voucher",
+        label: "Voucher",
         value: "voucher",
       },
       {
-        title: "Hampers",
+        label: "Hampers",
         value: "hampers",
       },
       {
-        title: "Satuan",
+        label: "Satuan",
         value: "satuan",
       },
     ],
   },
   {
     kind: "Brand",
-    children: [
+    items: [
       {
-        title: "Brand A",
+        label: "Brand A",
         value: "brand-a",
       },
       {
-        title: "Brand B",
+        label: "Brand B",
         value: "brand-b",
       },
       {
-        title: "Brand C",
+        label: "Brand C",
         value: "brand-c",
       },
     ],
   },
   {
     kind: "Harga",
-    children: [
+    items: [
       {
-        title: "< Rp 500.000",
+        label: "< Rp 500.000",
         value: "1",
       },
       {
-        title: "> Rp 500.000",
+        label: "> Rp 500.000",
         value: "2",
       },
     ],
   },
   {
     kind: "Wilayah",
-    children: [
+    items: [
       {
-        title: "Jakarta",
+        label: "Jakarta",
         value: "jkt",
       },
       {
-        title: "Bandung",
+        label: "Bandung",
         value: "bdg",
       },
       {
-        title: "Jogjakarta",
+        label: "Jogjakarta",
         value: "jog",
       },
       {
-        title: "Surabaya",
+        label: "Surabaya",
         value: "sby",
       },
       {
-        title: "Bali",
+        label: "Bali",
         value: "bli",
       },
     ],
+  },
+];
+
+const CAROUSEL_ITEMS = [
+  {
+    src: carousel_img_1,
+    alt: "carousel_item_1",
+  },
+  {
+    src: carousel_img_2,
+    alt: "carousel_item_2",
+  },
+  {
+    src: carousel_img_3,
+    alt: "carousel_item_3",
   },
 ];
 
@@ -143,55 +185,19 @@ export default function EventShop() {
   return (
     <Box className="grid grid-cols-6 gap-x-10 pb-10">
       <Box className="col-span-1">
-        <FilterAndSearchSection />
+        <FilterAndSearchSection filterSections={FILTER_SECTIONS} />
       </Box>
       <Box className="grid gap-y-5 col-span-4">
         <Box>
           <ProductCarousel>
-            <Box key={"t1"}>
-              <Image src={carousel_img_1} alt="carousel" />
-            </Box>
-            <Box key={"t2"}>
-              <Image src={carousel_img_2} alt="carousel" />
-            </Box>
-            <Box key={"t3"}>
-              <Image src={carousel_img_3} alt="carousel" />
-            </Box>
+            {CAROUSEL_ITEMS.map((item) => (
+              <ProductCarouselItem key={item.alt} {...item} />
+            ))}
           </ProductCarousel>
         </Box>
         <Box className="grid grid-cols-3 gap-x-5">
-          {DUMMY_WEDDING_PRODUCTS.map((product) => (
-            <Box key={product.name} className="grid gap-y-2">
-              <LinkWrapper pushPath={product.name}>
-              <Image src={product.asset} alt="product_image" />
-              <Box>
-                <Typography
-                  fontFamily={"serif"}
-                  fontSize={20}
-                  className="font-bold"
-                >
-                  {product.title}
-                </Typography>
-                <Typography
-                  fontFamily={"serif"}
-                  fontSize={20}
-                  className="font-bold text-pandan"
-                >
-                  Rp {product.price}
-                </Typography>
-                <Typography fontFamily={"sans-serif"} fontSize={18}>
-                  {product.seller}
-                </Typography>
-                <Typography
-                  fontFamily={"sans-serif"}
-                  fontSize={16}
-                  className="font-italic"
-                >
-                  <i>{product.location}</i>
-                </Typography>
-              </Box>
-              </LinkWrapper>
-            </Box>
+          {DUMMY_WEDDING_PRODUCTS.map((product, idx) => (
+            <ProductCard product={product} key={product.name + '-' + idx}/>
           ))}
         </Box>
       </Box>
@@ -202,11 +208,23 @@ export default function EventShop() {
   );
 }
 
-function FilterAndSearchSection() {
+function ProductCarouselItem({ alt, src }: iCarouselItemProps) {
+  return (
+    <Box>
+      <Image src={src} alt={alt} />
+    </Box>
+  );
+}
+
+function FilterAndSearchSection({
+  filterSections,
+}: {
+  filterSections: iFilterSections;
+}) {
   return (
     <Box className="grid gap-y-5 fixed">
       <SearchBox />
-      <FilterBox />
+      <FilterBox sections={filterSections} />
     </Box>
   );
 }
@@ -225,30 +243,73 @@ function SearchBox() {
   );
 }
 
-function FilterBox() {
+function ProductCard({ product }: { product: iProduct }) {
+  return (
+    <Box className="grid gap-y-2">
+      <LinkWrapper pushPath={product.name}>
+        <Image src={product.asset} alt="product_image" />
+        <Box>
+          <Typography fontFamily={"serif"} fontSize={20} className="font-bold">
+            {product.title}
+          </Typography>
+          <Typography
+            fontFamily={"serif"}
+            fontSize={20}
+            className="font-bold text-pandan"
+          >
+            Rp {product.price}
+          </Typography>
+          <Typography fontFamily={"sans-serif"} fontSize={18}>
+            {product.seller}
+          </Typography>
+          <Typography
+            fontFamily={"sans-serif"}
+            fontSize={16}
+            className="font-italic"
+          >
+            <i>{product.location}</i>
+          </Typography>
+        </Box>
+      </LinkWrapper>
+    </Box>
+  );
+}
+
+function FilterBox({ sections }: { sections: iFilterSections }) {
   return (
     <Box className="grid gap-y-1">
-      {FILTER_ITEMS.map((filter) => (
-        <Box
-          key={filter.kind}
-          className="grid gap-y-2 border-b border-gula pb-2"
-        >
-          <Typography className="text-pandan" variant="h5">
-            {filter.kind}
-          </Typography>
-          <Box className="grid">
-            {filter.children.map((filterVal) => (
-              <Typography
-                key={filterVal.value}
-                variant="button"
-                fontFamily={"Helvetica Neue"}
-              >
-                {filterVal.title}
-              </Typography>
-            ))}
-          </Box>
-        </Box>
+      {sections.map((section) => (
+        <FilterSection key={section.kind} section={section} />
       ))}
+    </Box>
+  );
+}
+
+function FilterSection({ section }: { section: iFilterSection }) {
+  return (
+    <Box className="grid gap-y-2 border-b border-gula pb-2">
+      <Typography className="text-pandan" variant="h5">
+        {section.kind}
+      </Typography>
+      <Box className="grid">
+        {section.items.map((item) => (
+          <FilterItem key={item.value} item={item} />
+        ))}
+      </Box>
+    </Box>
+  );
+}
+
+function FilterItem({ item }: { item: iFilterItem }) {
+  return (
+    <Box>
+      <Typography
+        key={item.value}
+        variant="button"
+        fontFamily={"Helvetica Neue"}
+      >
+        {item.label}
+      </Typography>
     </Box>
   );
 }

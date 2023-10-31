@@ -8,7 +8,7 @@ export default function RegistryForm() {
       <Box className="flex flex-col gap-y-4">
         <Box className="w-full h-80 bg-gula"></Box>
 
-        <p className="text-6xl text-pandan">Mawar's Wedding Registry</p>
+        <p className="text-6xl text-pandan">Mawar&apos;s Wedding Registry</p>
 
         <Box className="w-full h-1 bg-kunyit" />
 
