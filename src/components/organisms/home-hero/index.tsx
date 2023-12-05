@@ -16,7 +16,7 @@ export default function HomeHero({ leftHero, rightHero }: IHomeHeroProps) {
   return (
     <Box className="w-full flex overflow-hidden">
       <HeroHalf {...leftHero} key={"left-hero"} />
-      <HeroHalf {...rightHero} key={"right-hero"} />
+      <HeroHalf {...rightHero} labelColor="text-white" key={"right-hero"} />
     </Box>
   );
 }

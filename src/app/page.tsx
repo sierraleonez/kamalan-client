@@ -9,12 +9,13 @@ import tiktok_icon from "../../public/static/asset/social-media-icon/tiktok_blac
 
 import Image from "next/image";
 import HomeHero from "@/components/organisms/home-hero";
+import kamalan_logo_green from 'assets/kamalan_logo_green.svg'
 const DefaultFontItalic = DM_Serif_Display({
   subsets: ["latin"],
   weight: "400",
   style: "italic",
 });
-const kamalan_logo_black = "/static/asset/kamalan_logo_black.svg";
+// const kamalan_logo_green = "/static/asset/kamalan_logo_green.svg";
 const love_thumbnail = "/static/asset/love.svg";
 const featured_image = "/static/asset/featured/secret_santa.png";
 
@@ -24,6 +25,7 @@ import HomeContentBox, {
   iHomeContent,
 } from "@/components/organisms/home-content-box";
 import SectionTitle from "@/components/atoms/section-title";
+import NavBar from "@/components/organisms/navbar";
 
 function vendorLogoPathCreator(assetName: string): string {
   return `/static/asset/vendor-logo/${assetName}_logo.svg`;
@@ -182,6 +184,7 @@ const CATATAN_KAMALAN_ENTRIES: Array<iCatatanKamalanEntries> = [
 export default function Home() {
   return (
     <>
+      <NavBar/>
       <Box className="w-full grid gap-y-32">
         <HomeHero
           leftHero={{
