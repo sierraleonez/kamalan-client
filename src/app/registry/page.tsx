@@ -48,7 +48,7 @@ const RegistryEvents: EventList = [
 ];
 export default function Registry() {
   return (
-    <Box className="grid grid-cols-4 gap-x-5">
+    <Box className="grid mt-6 grid-cols-4 gap-x-5">
       {RegistryEvents.map((event) => (
         <Box key={event.key} className="relative h-[760px]">
           <LinkWrapper pushPath={event.key}>

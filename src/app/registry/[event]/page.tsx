@@ -11,6 +11,7 @@ import product_2 from "assets/events/registry/wedding/product/2.jpg";
 import product_3 from "assets/events/registry/wedding/product/3.jpg";
 import ProductCart from "@/components/molecules/cart";
 import LinkWrapper from "@/components/atoms/link-wrapper";
+import search_icon from 'assets/utility/search.svg'
 
 type iFilterSections = Array<iFilterSection>;
 type iFilterItem = {
@@ -183,7 +184,7 @@ const CAROUSEL_ITEMS = [
 
 export default function EventShop() {
   return (
-    <Box className="grid grid-cols-6 gap-x-10 pb-10">
+    <Box className="grid grid-cols-6 gap-x-10 pb-10 mt-6">
       <Box className="col-span-1">
         <FilterAndSearchSection filterSections={FILTER_SECTIONS} />
       </Box>
@@ -235,7 +236,7 @@ function SearchBox() {
         placeholder="Cari gift"
         endAdornment={
           <InputAdornment position="end">
-            <Typography>test</Typography>
+            <Image src={search_icon} alt="search-icon"/>
           </InputAdornment>
         }
       />

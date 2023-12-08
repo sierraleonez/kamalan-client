@@ -1,6 +1,8 @@
+import Breadcrumb from "@/components/molecules/breadcrumb";
 import { Box } from "@mui/material";
+import Image from "next/image";
 
-import RegistryNavbar from "@/components/organisms/registry-navbar";
+import KamalanLogoGreen from "assets/kamalan_logo_green.svg";
 
 type iBreadcrumbStep = {
   id: string;
@@ -36,16 +38,17 @@ const breadcrumb: BreadcrumbEntries = [
     href: "",
   },
 ];
-export default function RegistryLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+
+export default function RegistryNavbar() {
   return (
-    <Box className="grid w-full gap-y-4">
-      <Box className="px-32">
-        <RegistryNavbar />
-        <Box className="mt-[120px]">{children}</Box>
+    <Box className="fixed z-50 bg-white w-full pt-9">
+      <Box className="grid  items-center grid-cols-6 gap-x-10 gap-y-3">
+        <Box className="col-span-1">
+          <Image src={KamalanLogoGreen} alt="kamalan-logo" />
+        </Box>
+        <Box className="col-span-4">
+        <Breadcrumb currentPage="registry" crumbs={breadcrumb} />
+        </Box>
       </Box>
     </Box>
   );

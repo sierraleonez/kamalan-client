@@ -1,22 +1,28 @@
-import BreadcrumbStep from "@/components/atoms/breadcrumb-step"
-import { Box } from "@mui/material"
+import BreadcrumbStep from "@/components/atoms/breadcrumb-step";
+import { Box } from "@mui/material";
 
 type iBreadcrumbStep = {
-  id: string
-  title: string
-  href: string
-}
+  id: string;
+  title: string;
+  href: string;
+};
 
-type BreadcrumbEntries = Array<iBreadcrumbStep>
+type BreadcrumbEntries = Array<iBreadcrumbStep>;
 type iBreadcrumbProps = {
-  crumbs: BreadcrumbEntries
-}
-export default function Breadcrumb({ crumbs }: iBreadcrumbProps) {
+  crumbs: BreadcrumbEntries;
+  currentPage: string;
+};
+export default function Breadcrumb({ crumbs, currentPage }: iBreadcrumbProps) {
   return (
-    <Box className={`grid grid-cols-${crumbs.length}`}>
+    <Box className={`flex gap-x-2`}>
       {crumbs.map((crumb, idx) => (
-        <BreadcrumbStep isArrowShown={idx < (crumbs.length - 1)} key={crumb.id} {...crumb}/>
+        <BreadcrumbStep
+          isCurrentPage={currentPage === crumb.id}
+          isArrowShown={idx < crumbs.length - 1}
+          key={crumb.id}
+          {...crumb}
+        />
       ))}
     </Box>
-  )
+  );
 }
