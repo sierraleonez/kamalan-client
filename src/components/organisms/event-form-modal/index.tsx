@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { closeEventModal } from "@/lib/features/global/modalSlice";
+import { setRegistryNameAndDate } from "@/lib/features/registry/registryCreationSlice";
 
 type Input = {
   name: string;
@@ -25,6 +26,7 @@ export default function EventFormModal() {
 
   function dispatchPushToProduct({ date, name }: Input) {
     dispatch(closeEventModal());
+    dispatch(setRegistryNameAndDate({ name, date }));
     push(`/registry/${props.eventId}`);
   }
 

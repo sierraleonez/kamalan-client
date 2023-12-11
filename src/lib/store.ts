@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import modalReducer from "@/lib/features/global/modalSlice";
+import registryCreationReducer from "./features/registry/registryCreationSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       modal: modalReducer,
+      registryCreation: registryCreationReducer,
     },
   });
 };
