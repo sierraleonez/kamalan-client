@@ -2,6 +2,7 @@ import ClientThemeProvider from "@/components/providers/theme/theme.provider";
 import "./globals.css";
 import type { Metadata } from "next";
 import { DM_Serif_Display } from "next/font/google";
+import ReduxStoreProvider from "@/components/providers/redux-store";
 
 const DefaultFont = DM_Serif_Display({ subsets: ["latin"], weight: "400" });
 
@@ -21,7 +22,9 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={DefaultFont.className}>
-        <ClientThemeProvider>{children}</ClientThemeProvider>
+        <ReduxStoreProvider>
+          <ClientThemeProvider>{children}</ClientThemeProvider>
+        </ReduxStoreProvider>
       </body>
     </html>
   );

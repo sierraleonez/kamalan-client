@@ -1,9 +1,23 @@
-"use client"
+"use client";
 
-export default function CButton({ children }: { children: React.ReactNode }) {
+import { MouseEventHandler } from "react";
+
+type ButtonActionType = 'submit' | 'reset' | 'button'
+
+export default function CButton({
+  children,
+  onClick,
+  type = 'button',
+  form
+}: {
+  children: React.ReactNode;
+  onClick?: MouseEventHandler;
+  type?: ButtonActionType;
+  form?: string
+}) {
   return (
-    <button className="px-12 py-3 bg-pandan text-white w-fit">
+    <button form={form} type={type} onClick={onClick} className="px-12 py-3 bg-pandan text-white w-fit">
       {children}
     </button>
-  )
+  );
 }

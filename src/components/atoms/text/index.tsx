@@ -1,10 +1,11 @@
 import React from "react";
-import { Noto_Serif, DM_Serif_Display } from 'next/font/google'
+import { DM_Serif_Display, Lato } from 'next/font/google'
 import { mergeClass } from "@/utils/styling/tw-merge";
 
 
 const dm_serif_display = DM_Serif_Display({ subsets: ["latin"], weight: "400" });
-const noto_serif_normal = Noto_Serif({ subsets: ["latin"] })
+const noto_serif_normal = Lato({ subsets: ["latin"], weight: ['400', '700', '900'] })
+
 
 type textVariant = "copy" | "title"
 type textSize = "giant" | "macro"| "large" | "big" | "small" | "tiny" | "medium" | "micro"
@@ -26,7 +27,7 @@ const fontSize: iFontSize = {
     large: "text-[6rem]",
     big: "text-[5rem]",
     medium: "text-[4rem]",
-    small: "text-[3rem]",
+    small: "text-[3rem] leading-10",
     tiny: "text-[2rem]",
     micro: "text-[1.5rem]",
     giant: "",

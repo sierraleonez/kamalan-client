@@ -43,9 +43,9 @@ export default function RegistryLayout({
 }) {
   return (
     <Box className="grid w-full gap-y-4">
+      <RegistryNavbar />
       <Box className="px-32">
-        <RegistryNavbar />
-        <Box className="mt-[120px]">{children}</Box>
+        <Box className="mt-[132px]">{children}</Box>
       </Box>
     </Box>
   );

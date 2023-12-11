@@ -11,6 +11,7 @@ import { MouseEvent } from "react";
 import NavbarIcons from "@/components/molecules/navbar-icons";
 
 export default function NavBar() {
+  const screenWidth = screen.width
   const [springs, api] = useSpring(() => ({
     from: { opacity: 0, width: 257 },
   }));
@@ -19,7 +20,7 @@ export default function NavBar() {
     e.stopPropagation();
     const [a] = api.start({
       from: { width: 0 },
-      to: { width: 1920 },
+      to: { width: screenWidth },
     });
     a.then((e) => {
       e.finished && api.start({ opacity: 100 });

@@ -41,13 +41,13 @@ const breadcrumb: BreadcrumbEntries = [
 
 export default function RegistryNavbar() {
   return (
-    <Box className="fixed z-50 bg-white w-full pt-9">
+    <Box className="fixed z-50 bg-white pt-9 px-32 pb-4 w-full">
       <Box className="grid  items-center grid-cols-6 gap-x-10 gap-y-3">
         <Box className="col-span-1">
           <Image src={KamalanLogoGreen} alt="kamalan-logo" />
         </Box>
-        <Box className="col-span-4">
-        <Breadcrumb currentPage="registry" crumbs={breadcrumb} />
+        <Box className="col-span-4 justify-self-center">
+          <Breadcrumb currentPage="registry" crumbs={breadcrumb} />
         </Box>
       </Box>
     </Box>
