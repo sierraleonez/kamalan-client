@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import EventHorizontalList from "@/components/organisms/event-horizontal-list";
 import EventFormModal from "@/components/organisms/event-form-modal";
+import { REGISTRY_EVENTS } from "../api/event/dummy";
 
 type iEvent = {
   title: string;
@@ -11,7 +12,8 @@ type iEvent = {
 type EventList = Array<iEvent>;
 
 export default async function Registry() {
-  const events = await getEvents();
+  // const events = await getEvents();
+  const events = REGISTRY_EVENTS;
 
   return (
     <Box>
@@ -21,14 +23,14 @@ export default async function Registry() {
   );
 }
 
-async function getEvents(): Promise<EventList> {
-  try {
-    const res = await fetch(
-      "http://localhost:3003/api/event?event_type=registry"
-    );
-    const { data } = await res.json();
-    return data;
-  } catch (err) {
-    throw new Error("something is wrong happened");
-  }
-}
+// async function getEvents(): Promise<EventList> {
+//   try {
+//     const res = await fetch(
+//       "http://localhost:3003/api/event?event_type=registry"
+//     );
+//     const { data } = await res.json();
+//     return data;
+//   } catch (err) {
+//     throw new Error("something is wrong happened");
+//   }
+// }
