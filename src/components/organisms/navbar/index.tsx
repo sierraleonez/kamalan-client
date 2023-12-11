@@ -11,7 +11,7 @@ import { MouseEvent } from "react";
 import NavbarIcons from "@/components/molecules/navbar-icons";
 
 export default function NavBar() {
-  const screenWidth = screen.width
+  const screenWidth = typeof screen !== "undefined" ? screen.width : 1920;
   const [springs, api] = useSpring(() => ({
     from: { opacity: 0, width: 257 },
   }));
@@ -44,7 +44,7 @@ export default function NavBar() {
           onMouseLeave={onMouseLeave}
           className="bg-white relative min-h-[136px] px-4 pt-10  pb-6 rounded-b-[64px] flex items-center items-center"
         >
-          <Box >
+          <Box>
             <Image src={kamalan_logo_green} alt="kamalan_logo" />
           </Box>
           <animated.div
@@ -53,10 +53,10 @@ export default function NavBar() {
               position: "absolute",
               right: 0,
               opacity: springs.opacity,
-              height: 'fit-content'
+              height: "fit-content",
             }}
           >
-            <NavbarIcons icons={[cart_icon, account_icon, registry_icon]}/>
+            <NavbarIcons icons={[cart_icon, account_icon, registry_icon]} />
           </animated.div>
         </Box>
       </Box>
