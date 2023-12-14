@@ -27,7 +27,7 @@ export default function EventFormModal() {
   function dispatchPushToProduct({ date, name }: Input) {
     dispatch(closeEventModal());
     dispatch(setRegistryNameAndDate({ name, date }));
-    push(`/registry/${props.eventId}`);
+    push(`/registry/${props.eventId}/product`);
   }
 
   return (

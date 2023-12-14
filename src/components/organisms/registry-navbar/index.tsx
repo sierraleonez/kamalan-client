@@ -13,17 +13,17 @@ type iBreadcrumbStep = {
 type BreadcrumbEntries = Array<iBreadcrumbStep>;
 const breadcrumb: BreadcrumbEntries = [
   {
-    id: "registry",
+    id: "event",
     title: "Tentukan Acara",
     href: "",
   },
   {
-    id: "events",
+    id: "product",
     title: "Pilih Hadiah",
     href: "",
   },
   {
-    id: "design-registry",
+    id: "design",
     title: "Desain Registry",
     href: "",
   },
@@ -47,7 +47,7 @@ export default function RegistryNavbar() {
           <Image src={KamalanLogoGreen} alt="kamalan-logo" />
         </Box>
         <Box className="col-span-4 justify-self-center">
-          <Breadcrumb currentPage="registry" crumbs={breadcrumb} />
+          <Breadcrumb crumbs={breadcrumb} />
         </Box>
       </Box>
     </Box>

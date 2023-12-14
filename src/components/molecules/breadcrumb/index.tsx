@@ -10,14 +10,12 @@ type iBreadcrumbStep = {
 type BreadcrumbEntries = Array<iBreadcrumbStep>;
 type iBreadcrumbProps = {
   crumbs: BreadcrumbEntries;
-  currentPage: string;
 };
-export default function Breadcrumb({ crumbs, currentPage }: iBreadcrumbProps) {
+export default function Breadcrumb({ crumbs }: iBreadcrumbProps) {
   return (
     <Box className={`flex gap-x-2`}>
       {crumbs.map((crumb, idx) => (
         <BreadcrumbStep
-          isCurrentPage={currentPage === crumb.id}
           isArrowShown={idx < crumbs.length - 1}
           key={crumb.id}
           {...crumb}

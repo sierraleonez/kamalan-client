@@ -9,6 +9,7 @@ import ProductCart from "@/components/molecules/cart";
 import location_icon from "assets/utility/location.svg";
 import Image from "next/image";
 import CButton from "@/components/atoms/button";
+import { DUMMY_PRODUCT_GALLERY } from "@/app/api/registry/product/dummy";
 
 const text = `
 <div>
@@ -23,44 +24,13 @@ const text = `
 `;
 
 export default function ProductDetail() {
-
   return (
     <Box className="grid grid-cols-6 gap-x-5 pb-10">
       <Box className="col-span-3">
-        <ProductGallery
-          items={[
-            {
-              original: "https://dummyimage.com/608x760/000/fff",
-              thumbnail: "https://dummyimage.com/140x175/000/fff",
-              thumbnailHeight: 175,
-              thumbnailWidth: 140,
-              thumbnailClass: "w-fit h-fit",
-              originalHeight: 760,
-              originalWidth: 600,
-            },
-            {
-              original: "https://dummyimage.com/608x760/000/fff",
-              thumbnail: "https://dummyimage.com/140x175/000/fff",
-              thumbnailHeight: 175,
-              thumbnailWidth: 140,
-              originalHeight: 760,
-              originalWidth: 600,
-              thumbnailClass: "w-fit h-fit",
-            },
-            {
-              original: "https://dummyimage.com/608x760/000/fff",
-              thumbnail: "https://dummyimage.com/140x175/000/fff",
-              thumbnailHeight: 175,
-              thumbnailWidth: 140,
-              originalHeight: 760,
-              originalWidth: 600,
-              thumbnailClass: "w-fit h-fit",
-            },
-          ]}
-        />
+        <ProductGallery items={DUMMY_PRODUCT_GALLERY} />
       </Box>
       <Box className="col-span-2 flex flex-col items-center gap-y-5">
-        <ProductContent/>
+        <ProductContent />
         <CButton>Tambahkan ke Registry</CButton>
       </Box>
       <Box className="col-span-1">

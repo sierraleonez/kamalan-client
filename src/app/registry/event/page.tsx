@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import EventHorizontalList from "@/components/organisms/event-horizontal-list";
 import EventFormModal from "@/components/organisms/event-form-modal";
-import { REGISTRY_EVENTS } from "../api/event/dummy";
+import { REGISTRY_EVENTS } from "../../api/event/dummy";
 
 type iEvent = {
   title: string;
