@@ -1,16 +1,28 @@
 import React from "react";
-import { DM_Serif_Display, Lato } from 'next/font/google'
+import { DM_Serif_Display, Lato } from "next/font/google";
 import { mergeClass } from "@/utils/styling/tw-merge";
 
+const dm_serif_display = DM_Serif_Display({
+  subsets: ["latin"],
+  weight: "400",
+});
+const noto_serif_normal = Lato({
+  subsets: ["latin"],
+  weight: ["300", "400", "700", "900"],
+});
 
-const dm_serif_display = DM_Serif_Display({ subsets: ["latin"], weight: "400" });
-const noto_serif_normal = Lato({ subsets: ["latin"], weight: ['300', '400', '700', '900'] })
+type textVariant = "copy" | "title";
+type textSize =
+  | "giant"
+  | "macro"
+  | "large"
+  | "big"
+  | "small"
+  | "tiny"
+  | "medium"
+  | "micro";
 
-
-type textVariant = "copy" | "title"
-type textSize = "giant" | "macro"| "large" | "big" | "small" | "tiny" | "medium" | "micro"
-
-type iFontSize = { [key in textVariant]: { [key in textSize]: string }  }
+type iFontSize = { [key in textVariant]: { [key in textSize]: string } };
 
 const fontSize: iFontSize = {
   copy: {
@@ -31,20 +43,30 @@ const fontSize: iFontSize = {
     tiny: "text-[2rem]",
     micro: "text-[1.5rem]",
     giant: "text-[8rem] leading-none",
-    macro: ""
+    macro: "",
   },
-}
+};
 
 const fontFamily: { [key in textVariant]: string } = {
   copy: `${noto_serif_normal.className}`,
-  title: `${dm_serif_display.className}`
-}
+  title: `${dm_serif_display.className}`,
+};
 
-export default function Text({ children, variant, size, className = "" }: { children: React.ReactNode, variant: textVariant, size: textSize, className?: string }) {
-  const mergedClass = mergeClass(fontFamily[variant], fontSize[variant][size], className)
-  return (
-    <p className={mergedClass}>
-      {children}
-    </p>
-  )
+export default function Text({
+  children,
+  variant = "copy",
+  size = "tiny",
+  className = "",
+}: {
+  children: React.ReactNode;
+  variant?: textVariant;
+  size?: textSize;
+  className?: string;
+}) {
+  const mergedClass = mergeClass(
+    fontFamily[variant],
+    fontSize[variant][size],
+    className
+  );
+  return <p className={mergedClass}>{children}</p>;
 }
