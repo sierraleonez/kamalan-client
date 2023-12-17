@@ -29,10 +29,27 @@ export const registrySlice = createSlice({
       );
       state.selectedProducts = newCart;
     },
+    increaseQtyProductCartRegistry: (state, action) => {
+      const productIdx = state.selectedProducts.findIndex(
+        (product) => product.product.name === action.payload
+      );
+      state.selectedProducts[productIdx].qty++;
+    },
+    decreaseQtyProductCartRegistry: (state, action) => {
+      const productIdx = state.selectedProducts.findIndex(
+        (product) => product.product.name === action.payload
+      );
+      state.selectedProducts[productIdx].qty--;
+    },
   },
 });
 
-export const { setRegistryNameAndDate, pushProductRegistry, removeProductFromCartRegistry } =
-  registrySlice.actions;
+export const {
+  setRegistryNameAndDate,
+  pushProductRegistry,
+  removeProductFromCartRegistry,
+  increaseQtyProductCartRegistry,
+  decreaseQtyProductCartRegistry,
+} = registrySlice.actions;
 
 export default registrySlice.reducer;

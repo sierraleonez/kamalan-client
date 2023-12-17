@@ -10,7 +10,11 @@ import plus_outline_pandan from "assets/utility/plus-pandan-outline.svg";
 import minus_outline_gula from "assets/utility/minus-gula-outline.svg";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { iProduct } from "@/types";
-import { removeProductFromCartRegistry } from "@/lib/features/registry/registryCreationSlice";
+import {
+  decreaseQtyProductCartRegistry,
+  increaseQtyProductCartRegistry,
+  removeProductFromCartRegistry,
+} from "@/lib/features/registry/registryCreationSlice";
 
 export default function ProductCart() {
   const dispatch = useAppDispatch();
@@ -23,6 +27,13 @@ export default function ProductCart() {
     dispatch(removeProductFromCartRegistry(productId));
   }
 
+  function onIncrement(productId: string) {
+    dispatch(increaseQtyProductCartRegistry(productId));
+  }
+
+  function onDecrement(productId: string) {
+    dispatch(decreaseQtyProductCartRegistry(productId));
+  }
   return (
     <Box className="grid max-w-[242px] gap-y-3 fixed">
       <RegistryCartTitle />
@@ -33,6 +44,8 @@ export default function ProductCart() {
           <Box className="grid gap-y-3">
             {products.map((product) => (
               <CartItem
+                onIncrement={onIncrement}
+                onDecrement={onDecrement}
                 onClickDelete={onClickDelete}
                 key={product.product.name}
                 product={product.product}
@@ -65,10 +78,14 @@ function CartItem({
   product,
   qty,
   onClickDelete,
+  onIncrement,
+  onDecrement,
 }: {
   product: iProduct;
   qty: number;
   onClickDelete: (productId: string) => void;
+  onIncrement: (productId: string) => void;
+  onDecrement: (productId: string) => void;
 }) {
   return (
     <Box className="w-full pb-3 border-b border-gula last:border-b-0">
@@ -82,17 +99,27 @@ function CartItem({
           />
           <Text size="micro">{product.title}</Text>
         </Box>
-        <Box
-          className="flex items-center gap-x-2 cursor-pointer"
-          onClick={() => onClickDelete(product.name)}
-        >
-          <Box className="w-[60px] flex justify-center hover:bg-wortel text-gula hover:text-white py-1">
+        <Box className="flex items-center gap-x-2">
+          <Box
+            onClick={() => onClickDelete(product.name)}
+            className="w-[60px] flex justify-center hover:bg-wortel text-gula hover:text-white py-1 cursor-pointer"
+          >
             <Text size="micro">Hapus</Text>
           </Box>
           <Box className="flex gap-x-3 items-center">
-            <Image src={minus_outline_gula} alt="minus_icon" />
+            <Box
+              className="cursor-pointer"
+              onClick={() => onDecrement(product.name)}
+            >
+              <Image src={minus_outline_gula} alt="minus_icon" />
+            </Box>
             <Text size="tiny">{qty}</Text>
-            <Image src={plus_outline_pandan} alt="plus_icon" />
+            <Box
+              className="cursor-pointer"
+              onClick={() => onIncrement(product.name)}
+            >
+              <Image src={plus_outline_pandan} alt="plus_icon" />
+            </Box>
           </Box>
         </Box>
       </Box>
