@@ -40,6 +40,7 @@ export default function FileUploadField({
               // const nl: MediaSource = {  }
               const file = event.target.files?.[0]
               onChangeFileInput(event)
+              // @ts-ignore
               field.onChange(URL.createObjectURL(file))
             }}
             type="file"
