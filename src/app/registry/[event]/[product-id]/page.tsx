@@ -34,7 +34,7 @@ export default function ProductDetail() {
         <CButton>Tambahkan ke Registry</CButton>
       </Box>
       <Box className="col-span-1">
-        <ProductCart />
+        <ProductCart nextPath="/registry/design" />
       </Box>
     </Box>
   );
