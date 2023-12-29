@@ -205,7 +205,7 @@ export default function EventShop() {
 
 function FilterAndSearch() {
   return (
-    <Box className="col-span-1">
+    <Box className="col-span-1 relative">
       <FilterAndSearchSection filterSections={FILTER_SECTIONS} />
     </Box>
   );
@@ -236,7 +236,7 @@ function ProductList() {
 function RegistryCart() {
   return (
     <Box className="col-span-1 relative">
-      <ProductCart />
+      <ProductCart  nextPath="/registry/design"/>
     </Box>
   );
 }
@@ -255,7 +255,7 @@ function FilterAndSearchSection({
   filterSections: iFilterSections;
 }) {
   return (
-    <Box className="grid gap-y-5 fixed">
+    <Box className="grid gap-y-5 fixed w-inherit max-w-[inherit]">
       <SearchBox />
       <FilterBox sections={filterSections} />
     </Box>
@@ -263,7 +263,7 @@ function FilterAndSearchSection({
 }
 function SearchBox() {
   return (
-    <Box className="">
+    <Box className=" ">
       <OutlinedInput
         placeholder="Cari gift"
         endAdornment={

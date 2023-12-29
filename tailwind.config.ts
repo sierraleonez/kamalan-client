@@ -33,6 +33,9 @@ const config: Config = {
         soga: "#CC1133",
         talas: "#FF00EE",
       },
+      width: {
+        inherit: 'inherit'
+      }
     },
   },
   plugins: [],

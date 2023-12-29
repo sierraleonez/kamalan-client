@@ -48,7 +48,7 @@ export default function ProductDetailModal() {
                 thumbnailPosition="left"
               /> */}
           </Box>
-          <Box className="col-span-3 flex flex-col">
+          <Box className="col-span-3 flex flex-col gap-y-5">
             <Box
               className="flex justify-end pointer-auto"
               onClick={() => dispatch(closeProductDetailModal())}
@@ -73,7 +73,7 @@ export default function ProductDetailModal() {
               />
             </Box>
             <Box>{parse.parse(text)}</Box>
-            <Box>
+            <Box className="flex flex-col gap-y-5">
               <Text variant="copy" size="tiny" className="font-black">
                 Varian:
               </Text>

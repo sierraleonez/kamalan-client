@@ -1,5 +1,7 @@
 "use client";
 import { ThemeProvider, createTheme, responsiveFontSizes } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { DM_Serif_Display } from "next/font/google";
 const DM_Serif_Normal = DM_Serif_Display({ subsets: ["latin"], weight: "400" });
 const DM_Serif_Italic = DM_Serif_Display({
@@ -35,8 +37,6 @@ let theme = createTheme({
           },
           "& .MuiOutlinedInput-input": {
             borderColor: '#889966',
-            paddingTop: 9,
-            paddingBottom: 9,
           },
         },
       },
@@ -49,5 +49,9 @@ export default function ClientThemeProvider({
 }: {
   children: React.ReactNode;
 }) {
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    </LocalizationProvider>
+  );
 }

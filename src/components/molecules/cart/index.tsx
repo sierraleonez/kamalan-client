@@ -15,8 +15,11 @@ import {
   increaseQtyProductCartRegistry,
   removeProductFromCartRegistry,
 } from "@/lib/features/registry/registryCreationSlice";
+import CButton from "@/components/atoms/button";
+import { useRouter } from "next/navigation";
 
-export default function ProductCart() {
+export default function ProductCart({ nextPath }: { nextPath: string }) {
+  const router = useRouter()
   const dispatch = useAppDispatch();
   const products = useAppSelector(
     (state) => state.registryCreation.selectedProducts
@@ -34,14 +37,17 @@ export default function ProductCart() {
   function onDecrement(productId: string) {
     dispatch(decreaseQtyProductCartRegistry(productId));
   }
+
   return (
-    <Box className="grid max-w-[242px] gap-y-3 fixed">
+    <Box className="grid w-[180px] 2xl:w-[242px] gap-y-3 fixed">
       <RegistryCartTitle />
-      <Box className="p-3 border-seledri border min-h-[600px] w-full gap-y-2">
+      <Box
+        className="p-3 w-inherit border-seledri border min-h-[400px] 2xl:min-h-[600px] gap-y-2"
+      >
         {isCartEmpty ? (
           <CartEmptyState />
         ) : (
-          <Box className="grid gap-y-3">
+          <Box className="grid gap-y-3  ">
             {products.map((product) => (
               <CartItem
                 onIncrement={onIncrement}
@@ -55,18 +61,19 @@ export default function ProductCart() {
           </Box>
         )}
       </Box>
+      <CButton onClick={() => router.push(nextPath)}>Selesai Pilih</CButton>
     </Box>
   );
 }
 
 function CartEmptyState() {
   return (
-    <Box className="h-full px-3 border border-dashed border-gula flex flex-col gap-y-2 justify-center items-center">
+    <Box className="h-full px-3 border border-dashed border-gula flex flex-col gap-y-2 justify-center items-center  ">
       <Image src={green_love} alt="green_love" width={60} />
       <Text
         variant="copy"
         size="tiny"
-        className="text-kluwak text-center font-light"
+        className="text-kluwak text-center font-light  "
       >
         <i>Hadiah yang telah kamu pilih akan muncul di daftar ini!</i>
       </Text>
@@ -88,7 +95,7 @@ function CartItem({
   onDecrement: (productId: string) => void;
 }) {
   return (
-    <Box className="w-full pb-3 border-b border-gula last:border-b-0">
+    <Box className="w-full pb-3 border-b border-gula last:border-b-0  ">
       <Box className="flex flex-col gap-y-1">
         <Box className="flex items-center gap-x-2">
           <Image
