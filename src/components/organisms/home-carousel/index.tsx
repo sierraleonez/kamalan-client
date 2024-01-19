@@ -149,6 +149,7 @@ export default function HomeCarousel() {
       {
         DUMMY_CAROUSEL.map(slide => (
           <Slide
+            key={slide.titleSection.title}
             slide={slide}
           />
         ))
@@ -223,7 +224,7 @@ function CarouselSteps({ steps }: { steps: Array<Step> }) {
   return (
     <Box className="col-span-2 grid grid-cols-5">
       {steps.map((step) => (
-        <Step stepData={step} containerClassname={step.containerClassname} />
+        <Step key={`step-${step.step}`} stepData={step} containerClassname={step.containerClassname} />
       ))}
     </Box>
   );
