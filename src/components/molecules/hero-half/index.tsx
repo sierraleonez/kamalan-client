@@ -25,6 +25,3 @@ export default function HeroHalf({
     </Box>
   );
 }
-
-// SETUP TYPOGRAPHY FONT FIRST
-// TAILWIND COLOR PALETTE

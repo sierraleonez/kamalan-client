@@ -31,13 +31,13 @@ export default function FileUploadField({
 
   return (
     <Controller
+      rules={{ required: true }}
       name={name}
       control={control}
       render={({ field }) => (
         <>
           <input
             onChange={event => {
-              // const nl: MediaSource = {  }
               const file = event.target.files?.[0]
               onChangeFileInput(event)
               // @ts-ignore

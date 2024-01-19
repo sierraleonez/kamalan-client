@@ -23,6 +23,7 @@ import {
   setRegistryPersonalInfo,
   setRegistryPicture,
 } from "@/lib/features/registry/registryCreationSlice";
+import { twMerge } from "tailwind-merge";
 
 type RegistryInput = {
   "registry-greeting": string;
@@ -97,19 +98,19 @@ export default function RegistryForm() {
 
             <Box className="grid grid-cols-4 w-full gap-x-5">
               <Box className="col-span-1 flex flex-col gap-y-1 items-center">
-                <PrivacySwitch />
+                <PrivacySwitch name="registry-privacy-option" control={control} />
                 <Text size="tiny" className="text-kluwak text-center leading-5">
                   Registry-mu hanya terlihat oleh orang yang kamu pilih
                 </Text>
               </Box>
 
               <Box className="col-span-3">
-                <TextField
-                  {...register("registry-greeting")}
-                  className="w-full"
+                <InputWithLabel
+                  required
+                  multiline
                   minRows={4}
                   label="Kata Sambutan"
-                  multiline
+                  {...register("registry-greeting")}
                 />
               </Box>
             </Box>
@@ -137,8 +138,11 @@ function ImageUploadField({
   name: string;
   control: Control<any>;
 }) {
+  const { _formState: { errors } } = control
+  const err = errors[name]
+  const classError = err ? "border-error text-error" : ""
   return (
-    <Box className="w-full h-80 border border-gula border-dashed flex flex-col justify-center items-center gap-y-4">
+    <Box className={twMerge("w-full h-80 border border-gula border-dashed flex flex-col justify-center items-center gap-y-4", classError)}>
       {selectedImage ? (
         <Image
           src={URL.createObjectURL(selectedImage)}
@@ -275,13 +279,22 @@ function DateInput({
   control: Control;
   label: string;
 }) {
+  const { _formState: { errors } } = control
+  const err = errors[name]
   return (
     <Controller
       name={name}
+      rules={{ required: true }}
       control={control}
       render={({ field }) => (
         <DatePicker
+          disablePast
           label={label}
+          slotProps={{
+            textField: {
+              error: !!err
+            }
+          }}
           className="w-full"
           onChange={(date) => field.onChange(date)}
         />
@@ -290,16 +303,21 @@ function DateInput({
   );
 }
 
-function PrivacySwitch() {
+function PrivacySwitch({ control, name }: { control: Control<any>, name: string }) {
+  const { _formState: { errors }, _formValues } = control
+  const active = "text-kunyit"
+
   return (
+    <Controller name={name} defaultValue={false} control={control} render={({ field }) => (
     <Box className="flex items-center">
-      <Text size="small" className="font-black text-kunyit">
+      <Text size="small" className={twMerge("font-black text-gula", _formValues[name] ? "" : active)}>
         Privat
       </Text>
-      <Switch checked />
-      <Text size="small" className="font-black text-gula">
+      <Switch onChange={event => field.onChange(event.target.checked) } />
+      <Text size="small" className={twMerge("font-black text-gula", _formValues[name] ? active : "")}>
         Publik
       </Text>
     </Box>
+    )}/>
   );
 }

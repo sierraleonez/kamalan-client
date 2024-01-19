@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import Image from "next/image";
 
 import KamalanLogoGreen from "assets/kamalan_logo_green.svg";
+import Link from "next/link";
 
 type iBreadcrumbStep = {
   id: string;
@@ -15,39 +16,45 @@ const breadcrumb: BreadcrumbEntries = [
   {
     id: "event",
     title: "Tentukan Acara",
-    href: "",
+    href: "/registry/event",
   },
   {
     id: "product",
     title: "Pilih Hadiah",
-    href: "",
+    href: "registry/",
   },
   {
     id: "design",
     title: "Desain Registry",
-    href: "",
+    href: "/registry/design",
   },
   {
     id: "form",
     title: "Lengkapi Data",
-    href: "",
+    href: "/registry/form",
   },
   {
     id: "share",
     title: "Bagikan Registry",
-    href: "",
+    href: "/registry/share",
   },
 ];
 
-export default function RegistryNavbar() {
+export default function RegistryNavbar({
+  showBreadcrumb = true,
+}: {
+  showBreadcrumb?: boolean;
+}) {
   return (
     <Box className="fixed z-50 bg-white pt-9 px-32 pb-4 w-full">
       <Box className="grid  items-center grid-cols-6 gap-x-10 gap-y-3">
         <Box className="col-span-1">
-          <Image src={KamalanLogoGreen} alt="kamalan-logo" />
+          <Link href={"/"}>
+            <Image src={KamalanLogoGreen} alt="kamalan-logo" />
+          </Link>
         </Box>
         <Box className="col-span-4 justify-self-center">
-          <Breadcrumb crumbs={breadcrumb} />
+          {showBreadcrumb && <Breadcrumb crumbs={breadcrumb} />}
         </Box>
       </Box>
     </Box>

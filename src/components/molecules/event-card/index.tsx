@@ -28,7 +28,7 @@ export default function EventCard({ event }: { event: iEvent }) {
   return (
     <Box
       key={event.key}
-      className="relative h-[760px]"
+      className="relative h-[760px] cursor-pointer"
       onClick={() => dispatch(openEventModal(event.key))}
     >
       <Image

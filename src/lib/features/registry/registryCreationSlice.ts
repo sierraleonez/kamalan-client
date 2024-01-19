@@ -56,13 +56,24 @@ export const registrySlice = createSlice({
       Object.assign(state, { date, name });
     },
     pushProductRegistry: (state, action: PayloadAction<iSelectedProduct>) => {
-      void state.selectedProducts.push(action.payload);
+      const sameProductIdx = state.selectedProducts.findIndex(product => {
+        const productTitle = product.product.name
+        const productVariant = product.variant
+        if (productTitle === action.payload.product.name && productVariant === action.payload.variant) {
+          return product
+        }
+      })
+      if (sameProductIdx === -1) {
+        state.selectedProducts.push(action.payload);
+      } else {
+        state.selectedProducts[sameProductIdx].qty++
+      }
     },
     removeProductFromCartRegistry: (state, action) => {
       const newCart = state.selectedProducts.filter(
         (product) => product.product.name !== action.payload
       );
-      state.selectedProducts = newCart;
+      state.selectedProducts = newCart; 
     },
     increaseQtyProductCartRegistry: (state, action) => {
       const productIdx = state.selectedProducts.findIndex(

@@ -14,6 +14,9 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { closeProductDetailModal } from "@/lib/features/global/modalSlice";
 import VariantItem from "@/components/atoms/variant-item";
 import { pushProductRegistry } from "@/lib/features/registry/registryCreationSlice";
+import { DUMMY_PRODUCT_GALLERY } from "@/app/api/registry/product/dummy";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 
 const text = `
 <div>
@@ -40,13 +43,17 @@ export default function ProductDetailModal() {
       open={open}
       className="flex items-center justify-center w-full"
     >
-      <Box className="w-[1180px] bg-white p-10 ">
-        <Box className="grid grid-cols-8">
+      <Box className="w-[1180px] bg-white p-10 relative">
+        <Box className="grid grid-cols-8 gap-x-4">
           <Box className="col-span-5 relative">
-            {/* <ProductGallery
-                items={DUMMY_PRODUCT_GALLERY}
-                thumbnailPosition="left"
-              /> */}
+            <Carousel showArrows={false} showIndicators={false} showStatus={false} showThumbs onClickThumb={e => { DUMMY_PRODUCT_GALLERY[e].variant }} renderThumbs={e => { return e.map(el => el) }} selectedItem={DUMMY_PRODUCT_GALLERY.findIndex(e => e.variant === selectedVariant)} >
+              {
+                DUMMY_PRODUCT_GALLERY.map(img => (
+                  <Image key={img.original} src={img.original} width={img.originalWidth} height={img.originalHeight} alt="t" />
+                ))
+              }
+            </Carousel>
+
           </Box>
           <Box className="col-span-3 flex flex-col gap-y-5">
             <Box
@@ -56,7 +63,7 @@ export default function ProductDetailModal() {
               <Image src={close_icon} alt="close_icon" />
             </Box>
             <Box className="flex flex-col gap-y-4">
-              <Text variant="title" size="medium">
+              <Text variant="title" size="tiny">
                 {props.title}
               </Text>
               <Text
@@ -72,7 +79,11 @@ export default function ProductDetailModal() {
                 logo={dummy_logo}
               />
             </Box>
-            <Box>{parse.parse(text)}</Box>
+            <Box>
+              <Text size="tiny" className="leading-5">
+              {parse.parse(text)}
+              </Text>
+            </Box>
             <Box className="flex flex-col gap-y-5">
               <Text variant="copy" size="tiny" className="font-black">
                 Varian:

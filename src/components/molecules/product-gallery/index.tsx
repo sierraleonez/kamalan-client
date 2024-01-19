@@ -11,7 +11,9 @@ export default function ProductGallery({
 }) {
   return (
     <ImageGallery
+      useBrowserFullscreen={false}
       showPlayButton={false}
+      // showThumbnails={false}
       showFullscreenButton={false}
       showNav={false}
       additionalClass="gap-x-4"

@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Dialog, Typography } from "@mui/material";
 import { DM_Serif_Display } from "next/font/google";
 
 import footer_bg_url from "../../public/static/asset/footer_home_bg.png";
@@ -19,13 +19,16 @@ const DefaultFontItalic = DM_Serif_Display({
 const love_thumbnail = "/static/asset/love.svg";
 const featured_image = "/static/asset/featured/secret_santa.png";
 
-import registry_hero_bg_url from "../../public/static/asset/hero/registry_bg.jpg";
-import gift_hero_bg_url from "../../public/static/asset/hero/gift_bg.jpg";
+import registry_hero_bg_url from "../../public/static/asset/hero/registry.png";
+import gift_hero_bg_url from "../../public/static/asset/hero/shop.png";
 import HomeContentBox, {
   iHomeContent,
 } from "@/components/organisms/home-content-box";
 import SectionTitle from "@/components/atoms/section-title";
 import NavBar from "@/components/organisms/navbar";
+import LoginFormModal from "@/components/organisms/login-form-modal";
+import { Carousel } from "react-responsive-carousel";
+import HomeCarousel from "@/components/organisms/home-carousel";
 
 function vendorLogoPathCreator(assetName: string): string {
   return `/static/asset/vendor-logo/${assetName}_logo.svg`;
@@ -186,7 +189,9 @@ export default function Home() {
     <>
       <NavBar/>
       <Box className="w-full grid gap-y-32">
-        <HomeHero
+        <LoginFormModal/>
+        <HomeCarousel/>
+        {/* <HomeHero
           leftHero={{
             asset: registry_hero_bg_url,
             title: (
@@ -205,7 +210,7 @@ export default function Home() {
               </>
             ),
           }}
-        />
+        /> */}
         <Body />
         <Footer />
       </Box>

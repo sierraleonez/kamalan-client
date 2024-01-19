@@ -32,6 +32,7 @@ const config: Config = {
         blau: "#77AAEE",
         soga: "#CC1133",
         talas: "#FF00EE",
+        error: "#d3302f"
       },
       width: {
         inherit: 'inherit'

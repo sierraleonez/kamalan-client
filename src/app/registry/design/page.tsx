@@ -30,7 +30,7 @@ const options: Array<DesignOption> = [
 
 export default function DesignRegistry() {
   const { selectedDesign, name, selectedProducts } = useAppSelector(state => state.registryCreation)
-  const bgSource = selectedDesign ? `/static/asset/design-bg/${selectedDesign}.png` : green_bg
+  const bgSource = selectedDesign ? `/static/asset/design-bg/${selectedDesign}.png` : `/static/asset/design-bg/Pandan.png`
   return (
     <Box className="grid grid-cols-6 gap-x-10 pb-10">
       <Box className="col-span-1">
