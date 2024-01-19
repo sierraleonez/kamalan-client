@@ -13,7 +13,6 @@ export type textSize =
 
 export type iFontSize = { [key in textVariant]: { [key in textSize]: string } };
 
-
 export type iProduct = {
   name: string;
   asset: StaticImageData | string;

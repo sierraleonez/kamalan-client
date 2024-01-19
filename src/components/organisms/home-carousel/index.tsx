@@ -73,7 +73,7 @@ const DUMMY_CAROUSEL = [
       },
     ],
     action: () => (
-      <CButton className="bg-kunyit px-7 font-black">
+      <CButton className="bg-kunyit px-7 py-1 font-black">
         Jelajahi Hadiah
       </CButton>
     )
@@ -129,7 +129,9 @@ const DUMMY_CAROUSEL = [
           </Text>
         </Link>
         <CButton className="px-7 py-1 font-black">
+          <Link href="/registry/event">
           Buat Registry
+          </Link>
         </CButton>
       </Box>
     )
@@ -140,7 +142,7 @@ export default function HomeCarousel() {
     <Carousel
       showArrows={false}
       showStatus={false}
-      showIndicators={true}
+      showIndicators={false}
       infiniteLoop
       autoPlay
       showThumbs={false}
@@ -159,11 +161,12 @@ export default function HomeCarousel() {
 }
 
 function Slide({ slide }: { slide: iSlide }) {
+  const { desc, subtitle, title } = slide.titleSection
   return (
-    <Box className="">
+    <Box>
       <Image src={slide.bg} alt="registry" />
       <Box className="grid grid-cols-6 gap-x-10 px-20 py-5 text-start">
-        <CarouselTitle {...slide.titleSection} />
+        <CarouselTitle desc={desc} subtitle={subtitle} title={title} />
         <CarouselSteps steps={slide.stepSection} />
         <CarouselAction action={slide.action} />
       </Box>
@@ -182,7 +185,7 @@ function CarouselTitle({
 }) {
   return (
     <Box className="col-span-2 flex flex-col gap-y-3">
-      <Text variant="title" size="small" className="text-pandan leading-[80px]">
+      <Text size="tiny" variant="title" className="text-7xl text-pandan">
         {title}
       </Text>
       <Box>
@@ -200,14 +203,6 @@ function CarouselTitle({
 function CarouselAction({ action }: { action: () => React.ReactNode }) {
   return (
     <Box className="col-span-2 flex items-center justify-end">
-      {/* <Box className="py-3 px-7 bg-kunyit">
-        <Text className="font-black text-white" size="medium">
-          Jelajahi Hadiah
-        </Text>
-      </Box> */}
-      {/* <CButton className="bg-kunyit px-7 font-black">
-        Jelajahi Hadiah
-      </CButton> */}
       {action()}
     </Box>
   );
