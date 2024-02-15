@@ -1,7 +1,6 @@
 "use client"
 import RegistryCard from "@/components/organisms/registry-share-card";
 
-
 import { useAppSelector } from "@/lib/hooks";
 export default function RegistryShareCard() {
   const registry = useAppSelector(state => state.registryCreation)

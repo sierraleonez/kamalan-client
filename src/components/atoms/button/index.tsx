@@ -27,7 +27,7 @@ export default function CButton({
       form={form}
       type={type}
       onClick={onClick}
-      className={mergeClass("px-12 py-3 bg-pandan text-white w-fit", fontFamily.copy, className)}
+      className={mergeClass("px-12 py-3 bg-pandan text-white font-black text-xl w-fit", fontFamily.copy, className)}
     >
       {children}
     </button>

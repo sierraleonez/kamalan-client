@@ -9,6 +9,7 @@ export default function InputWithLabel({
   required = false,
   multiline = false,
   minRows = 1,
+  disabled = false
 }: {
   label: string;
   type?: HTMLInputTypeAttribute;
@@ -16,6 +17,7 @@ export default function InputWithLabel({
   required?: boolean;
   multiline?: boolean;
   minRows?: number;
+  disabled?: boolean;
 }) {
   const {
     register,
@@ -25,10 +27,11 @@ export default function InputWithLabel({
   return (
     <Box className="w-full">
       <TextField
+        disabled
         multiline={multiline}
         minRows={minRows}
         error={!!err}
-        {...register(name, { required })}
+        {...register(name, { required, disabled })}
         placeholder=""
         label={label}
         type={type}

@@ -1,5 +1,7 @@
+"use client"
 import BreadcrumbStep from "@/components/atoms/breadcrumb-step";
 import { Box } from "@mui/material";
+import { useSelectedLayoutSegment } from "next/navigation";
 
 type iBreadcrumbStep = {
   id: string;
@@ -12,6 +14,9 @@ type iBreadcrumbProps = {
   crumbs: BreadcrumbEntries;
 };
 export default function Breadcrumb({ crumbs }: iBreadcrumbProps) {
+  const segment = useSelectedLayoutSegment()
+
+  if (segment === 'link') return null
   return (
     <Box className={`flex gap-x-2`}>
       {crumbs.map((crumb, idx) => (
