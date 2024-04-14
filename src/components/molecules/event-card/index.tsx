@@ -9,12 +9,7 @@ import babyShowerBg from "assets/events/registry/baby_shower.jpg";
 import houseWarmingBg from "assets/events/registry/house_warming.jpg";
 import { useAppDispatch } from "@/lib/hooks";
 import { openEventModal } from "@/lib/features/global/modalSlice";
-
-type iEvent = {
-  title: string;
-  description: string;
-  key: string;
-};
+import { iEvent } from "@/lib/services/type";
 
 const assets: { [key: string]: StaticImageData } = {
   wedding: weddingBg,
@@ -27,18 +22,18 @@ export default function EventCard({ event }: { event: iEvent }) {
   const dispatch = useAppDispatch();
   return (
     <Box
-      key={event.key}
+      key={event.id}
       className="relative h-[760px] cursor-pointer"
-      onClick={() => dispatch(openEventModal(event.key))}
+      onClick={() => dispatch(openEventModal(event.id))}
     >
       <Image
         className="absolute z-0 w-full h-full"
         fill
-        src={assets[event.key]}
+        src={event.asset_url}
         alt="event-bg"
       />
       <Box className="absolute w-full h-full flex justify-center items-end">
-        <EventTitleBox title={event.title} />
+        <EventTitleBox title={event.name} />
       </Box>
     </Box>
   );

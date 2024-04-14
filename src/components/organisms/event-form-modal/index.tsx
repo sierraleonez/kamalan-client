@@ -10,13 +10,14 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { closeEventModal } from "@/lib/features/global/modalSlice";
 import { setRegistryNameAndDate } from "@/lib/features/registry/registryCreationSlice";
+import { iRegistryStepOnePayload } from "@/lib/services/type";
 
 type Input = {
   name: string;
   date: string;
 };
 
-export default function EventFormModal() {
+export default function EventFormModal({ loading, onSubmit }: { onSubmit: (arg: iRegistryStepOnePayload) => Promise<any>; loading: boolean }) {
   const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm<Input>();
   const {
@@ -24,7 +25,16 @@ export default function EventFormModal() {
   } = useAppSelector((state) => state.modal);
   const { push } = useRouter();
 
-  function dispatchPushToProduct({ date, name }: Input) {
+  async function onFormSubmit({ date, name }: Input) {
+    const res = await onSubmit({
+      event_date: date,
+      name,
+      event_id: props.eventId
+    }).unwrap()
+    dispatchPushToProduct({ date, name })
+  }
+
+  function dispatchPushToProduct({ name, date }: Input) {
     dispatch(closeEventModal());
     dispatch(setRegistryNameAndDate({ name, date }));
     push(`/registry/${props.eventId}/product`);
@@ -48,7 +58,7 @@ export default function EventFormModal() {
         </Text>
         <form
           id="eventDetail"
-          onSubmit={handleSubmit(dispatchPushToProduct)}
+          onSubmit={handleSubmit(onFormSubmit)}
           className="w-full flex flex-col w-full gap-y-4"
         >
           <TextField
@@ -63,7 +73,7 @@ export default function EventFormModal() {
             {...register("date", { required: true })}
           />
         </form>
-        <CButton form="eventDetail" type="submit">
+        <CButton loading={loading} form="eventDetail" type="submit">
           <Text variant="copy" size="medium" className="font-black">
             Selanjutnya
           </Text>

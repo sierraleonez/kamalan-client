@@ -2,17 +2,21 @@
 import RegistryCard from "@/components/organisms/registry-share-card";
 
 import { useAppSelector } from "@/lib/hooks";
+import { useGetRegistryDetailQuery } from "@/lib/services/registries";
 export default function RegistryShareCard() {
-  const registry = useAppSelector(state => state.registryCreation)
+  const registryId = useAppSelector(state => state.registryCreation.registry.id)
+  const { data: registryDetail } = useGetRegistryDetailQuery(registryId)
+  const registry = registryDetail?.data
+  // const registry = useAppSelector(state => state.registryCreation)
   return (
     <RegistryCard registry={{
-      bgUrl: `/static/asset/design-bg/${registry.selectedDesign}.png`,
-      date: registry.date,
-      greeting: registry.greeting,
-      products: registry.selectedProducts.map(({ product }) => ({ link: product.name, name: product.title })),
-      registryName: registry.name,
-      userImageUrl: registry.picture,
-      username: registry.personalInformation.name
+      bgUrl: registry?.event.asset_url || "",
+      date: registry?.event_date || "",
+      greeting: registry?.message || "",
+      products: registry?.productVariation?.length ? registry?.productVariation?.map((product) => ({ link: product.id, name: product.product.name })) : [],
+      registryName: registry?.name || "",
+      userImageUrl: registry?.user_asset_url || "",
+      username: registry?.user.name || ""
     }} />
   )
 }

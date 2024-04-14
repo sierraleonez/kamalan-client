@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import dayjs from "dayjs";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 
@@ -39,7 +40,7 @@ export default function RegistryCard({ registry }: { registry: iRegistry }) {
           <Box className="flex flex-col items-center gap-y-4">
             <p className="text-5xl text-white">{registry.registryName}</p>
             <Box className="px-4 py-1 w-fit bg-kunyit text-white">
-              <p>{registry.date}</p>
+              <p>{dayjs(registry.date).format('DD-MM-YYYY')}</p>
             </Box>
           </Box>
 

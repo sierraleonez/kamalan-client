@@ -20,7 +20,9 @@ export default function BreadcrumbStep({
   isArrowShown,
 }: iBreadcrumbStep) {
   const pathname = usePathname();
-  const isCurrentPage = pathname.includes(id);
+  const paths = pathname.split('/')
+  const activePath = paths[paths.length - 1]
+  const isCurrentPage = activePath === id;
 
   const containerActiveClass = "px-5 py-1 bg-seledri text-white";
   return (

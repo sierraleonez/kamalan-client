@@ -1,4 +1,4 @@
-import { Box, Dialog, Typography } from "@mui/material";
+import { Box, Dialog, Snackbar, Typography } from "@mui/material";
 import { DM_Serif_Display } from "next/font/google";
 
 import footer_bg_url from "../../public/static/asset/footer_home_bg.png";
@@ -29,6 +29,8 @@ import NavBar from "@/components/organisms/navbar";
 import LoginFormModal from "@/components/organisms/login-form-modal";
 import { Carousel } from "react-responsive-carousel";
 import HomeCarousel from "@/components/organisms/home-carousel";
+import Toast from "@/components/providers/toast/toast";
+import RegisterFormModal from "@/components/organisms/register-form-modal";
 
 function vendorLogoPathCreator(assetName: string): string {
   return `/static/asset/vendor-logo/${assetName}_logo.svg`;
@@ -190,8 +192,9 @@ export default function Home() {
       <NavBar/>
       <Box className="w-full grid gap-y-32">
         <LoginFormModal/>
-        <HomeCarousel/>
-        {/* <HomeHero
+        <RegisterFormModal/>
+        {/* <HomeCarousel/> */}
+        <HomeHero
           leftHero={{
             asset: registry_hero_bg_url,
             title: (
@@ -210,7 +213,7 @@ export default function Home() {
               </>
             ),
           }}
-        /> */}
+        />
         <Body />
         <Footer />
       </Box>
@@ -220,8 +223,8 @@ export default function Home() {
 
 function Body() {
   return (
-    <Box className="grid gap-y-10 w-full">
-      <SolutionSection />
+    <Box className="grid gap-y-16 w-full">
+      {/* <SolutionSection /> */}
       <KamalanFeatured />
       <CatatanKamalan />
       <RekanKamalan />

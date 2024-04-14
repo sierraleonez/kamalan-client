@@ -9,8 +9,13 @@ import registry_icon from "assets/utility/my-registry.svg";
 import { useSpring, animated } from "@react-spring/web";
 import { MouseEvent } from "react";
 import NavbarIcons from "@/components/molecules/navbar-icons";
+import { openLoginModal } from "@/lib/features/global/modalSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { openToast } from "@/lib/features/global/toastSlice";
 
 export default function NavBar() {
+  const dispatch = useAppDispatch()
+  const { isLoggedIn } = useAppSelector(state => state.auth)
   const screenWidth = typeof screen !== "undefined" ? screen.width : 1920;
   const [springs, api] = useSpring(() => ({
     from: { opacity: 0, width: 257 },
@@ -35,6 +40,16 @@ export default function NavBar() {
       to: { width: 0 },
     });
   }
+
+  function onAccountIconClick() {
+    if (isLoggedIn) {
+      dispatch(openToast({
+        message: 'You are logged in'
+      }))
+    } else {
+      dispatch(openLoginModal())
+    }
+  }
   return (
     <Box className="fixed w-full flex justify-center items-center z-20">
       <Box className="relative">
@@ -56,7 +71,16 @@ export default function NavBar() {
               height: "fit-content",
             }}
           >
-            <NavbarIcons icons={[cart_icon, account_icon, registry_icon]} />
+            <NavbarIcons items={[{
+              icon: cart_icon,
+              onClick: () => { }
+            }, {
+              icon: account_icon,
+              onClick: onAccountIconClick,
+            }, {
+              icon: registry_icon,
+              onClick: () => { }
+            }]} />
           </animated.div>
         </Box>
       </Box>

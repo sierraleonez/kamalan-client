@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { DM_Serif_Display } from "next/font/google";
 import ReduxStoreProvider from "@/components/providers/redux-store";
+import Toast from "@/components/providers/toast/toast";
 
 const DefaultFont = DM_Serif_Display({ subsets: ["latin"], weight: "400" });
 
@@ -23,7 +24,12 @@ export default function RootLayout({
       </head>
       <body className={DefaultFont.className}>
         <ReduxStoreProvider>
-          <ClientThemeProvider>{children}</ClientThemeProvider>
+          <ClientThemeProvider>
+            <>
+            <Toast/>
+            {children}
+            </>
+          </ClientThemeProvider>
         </ReduxStoreProvider>
       </body>
     </html>

@@ -18,6 +18,8 @@ import product_3 from "assets/events/registry/wedding/product/3.jpg";
 import search_icon from "assets/utility/search.svg";
 import ProductCard from "@/components/molecules/product-card";
 import ProductDetailModal from "@/components/organisms/product-detail-modal";
+import ClientProductList from "@/components/client-wrapper/product-list";
+import ProductDetailModalClient from "@/components/organisms/product-detail-modal/client-wrapper";
 
 type iFilterSections = Array<iFilterSection>;
 type iFilterItem = {
@@ -188,17 +190,18 @@ const CAROUSEL_ITEMS = [
   },
 ];
 
-export default function EventShop() {
+export default function EventShop({ params }: { params: { event: string } }) {
+  const eventId = params.event
   return (
     <Box className="grid grid-cols-6 gap-x-10 pb-10 mt-6">
       <FilterAndSearch />
       <Box className="grid gap-y-5 col-span-4">
         <RegistryCarousel />
-        <ProductList />
+        <ProductList eventId={eventId} />
       </Box>
       <RegistryCart />
 
-      <ProductDetailModal />
+      <ProductDetailModalClient/>
     </Box>
   );
 }
@@ -223,13 +226,9 @@ function RegistryCarousel() {
   );
 }
 
-function ProductList() {
+function ProductList({ eventId }: { eventId: string }) {
   return (
-    <Box className="grid grid-cols-3 gap-x-5">
-      {DUMMY_WEDDING_PRODUCTS.map((product, idx) => (
-        <ProductCard product={product} key={product.name + "-" + idx} />
-      ))}
-    </Box>
+    <ClientProductList eventId={eventId} />
   );
 }
 

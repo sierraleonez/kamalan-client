@@ -1,3 +1,5 @@
+import { iProductImage } from "@/lib/services/type";
+
 export const DUMMY_PRODUCT_GALLERY = [
   {
     original: "https://picsum.photos/id/1018/1000/600/",
@@ -60,3 +62,16 @@ export const DUMMY_PRODUCT_GALLERY = [
   //   thumbnailClass: "w-fit h-fit",
   // },
 ];
+
+export const createImageGallerySource = (images: Array<iProductImage>) => {
+  return images.map((image) => ({
+    original: image.asset_url,
+    thumbnail: image.asset_url,
+    thumbnailHeight: 175,
+    thumbnailWidth: 140,
+    variant: image.product_variation_id,
+    thumbnailClass: "w-fit h-fit",
+    originalHeight: 200,
+    originalWidth: 300,
+  }))
+}

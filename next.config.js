@@ -3,7 +3,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       { hostname: "picsum.photos" },
-      { hostname: "dummyimage.com" }
+      { hostname: "dummyimage.com" },
+      { hostname: "storage.googleapis.com" }
     ]
   }
 }

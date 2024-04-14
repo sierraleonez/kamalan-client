@@ -1,16 +1,18 @@
-import { iProduct } from "@/types";
+import { iModalReducerInitialState, iProduct } from "@/types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const productDetailPropsInitialState: iProduct = {
-  asset: "",
+  thumbnail_url: "",
   location: "",
   name: "",
-  price: "",
-  seller: "",
-  title: "",
+  default_price: 0,
+  brand_name: "",
+  brand_id: "",
+  description: "",
+  id: ""
 };
 
-const initialState = {
+const initialState: iModalReducerInitialState = {
   eventDetailForm: {
     open: false,
     props: {
@@ -22,6 +24,12 @@ const initialState = {
     props: productDetailPropsInitialState,
     selectedVariant: "",
   },
+  login: {
+    open: false,
+  },
+  register: {
+    open: false,
+  }
 };
 
 export const modalSlice = createSlice({
@@ -44,11 +52,11 @@ export const modalSlice = createSlice({
         },
       };
     },
-    openProductDetailModal: (state, action: PayloadAction<iProduct>) => {
+    openProductDetailModal: (state, action: PayloadAction<{product: iProduct; variant: string}>) => {
       state.productDetail = {
         open: true,
-        props: action.payload,
-        selectedVariant: "a",
+        props: action.payload.product,
+        selectedVariant: action.payload.variant
       };
     },
     closeProductDetailModal: (state) => {
@@ -57,6 +65,18 @@ export const modalSlice = createSlice({
     setVariantProductDetailModal: (state, action) => {
       state.productDetail.selectedVariant = action.payload;
     },
+    openLoginModal: (state) => {
+      state.login.open = true;
+    },
+    closeLoginModal: (state) => {
+      state.login.open = false;
+    },
+    openRegisterModal: (state) => {
+      state.register.open = true;
+    },
+    closeRegisterModal: (state) => {
+      state.register.open = false;
+    }
   },
 });
 
@@ -66,6 +86,10 @@ export const {
   openProductDetailModal,
   closeProductDetailModal,
   setVariantProductDetailModal,
+  openLoginModal,
+  closeLoginModal,
+  openRegisterModal,
+  closeRegisterModal
 } = modalSlice.actions;
 
 export default modalSlice.reducer;

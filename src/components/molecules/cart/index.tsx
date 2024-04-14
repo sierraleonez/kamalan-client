@@ -1,6 +1,6 @@
 "use client";
 
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import Image from "next/image";
 
 import green_love from "assets/love.svg";
@@ -9,33 +9,45 @@ import Text from "@/components/atoms/text";
 import plus_outline_pandan from "assets/utility/plus-pandan-outline.svg";
 import minus_outline_gula from "assets/utility/minus-gula-outline.svg";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { iProduct } from "@/types";
-import {
-  decreaseQtyProductCartRegistry,
-  increaseQtyProductCartRegistry,
-  removeProductFromCartRegistry,
-} from "@/lib/features/registry/registryCreationSlice";
 import CButton from "@/components/atoms/button";
 import { useRouter } from "next/navigation";
+import { useDeleteRegistryCartItemMutation, useGetCartItemsQuery, useUpdateCartItemMutation } from "@/lib/services/registries";
+import { iRegistryCartItem } from "@/lib/services/type";
 
-export default function ProductCart({ nextPath }: { nextPath: string }) {
+export default function ProductCart({ nextPath, onClick }: { nextPath?: string; onClick?: () => void }) {
   const router = useRouter()
-  const dispatch = useAppDispatch();
-  const products = useAppSelector(
-    (state) => state.registryCreation.selectedProducts
+  const [deleteItem, { isLoading: isDeleteItemLoading }] = useDeleteRegistryCartItemMutation()
+  const [updateItem] = useUpdateCartItemMutation()
+  const { registry } = useAppSelector(
+    (state) => state.registryCreation
   );
-  const isCartEmpty = products.length === 0;
 
-  function onClickDelete(productId: string) {
-    dispatch(removeProductFromCartRegistry(productId));
+  const { data: products } = useGetCartItemsQuery(registry.id)
+
+  const isCartEmpty = products?.length === 0;
+
+  async function onClickDelete(productId: string) {
+    try {
+      await deleteItem(productId).unwrap();
+    } catch (err) {
+
+    }
   }
 
-  function onIncrement(productId: string) {
-    dispatch(increaseQtyProductCartRegistry(productId));
+  async function onIncrement(product: iRegistryCartItem) {
+    const targetQty = product.current_qty + 1
+    const stockQty = product.stock_qty
+    console.log(targetQty, stockQty)
+    if (targetQty < stockQty) {
+      await updateItem({ params: product.id, body: { qty: targetQty } })
+    }
   }
 
-  function onDecrement(productId: string) {
-    dispatch(decreaseQtyProductCartRegistry(productId));
+  async function onDecrement(product: iRegistryCartItem) {
+    const targetQty = product.current_qty - 1
+    if (targetQty > 0) {
+      await updateItem({ params: product.id, body: { qty: targetQty } })
+    }
   }
 
   return (
@@ -48,20 +60,27 @@ export default function ProductCart({ nextPath }: { nextPath: string }) {
           <CartEmptyState />
         ) : (
           <Box className="grid gap-y-3  ">
-            {products.map((product) => (
+            {products?.map((product) => (
               <CartItem
+                isDeleteItemLoading={isDeleteItemLoading}
                 onIncrement={onIncrement}
                 onDecrement={onDecrement}
                 onClickDelete={onClickDelete}
-                key={product.product.name}
-                product={product.product}
-                qty={product.qty}
+                key={product.id}
+                product={product}
+                qty={product.current_qty}
               />
             ))}
           </Box>
         )}
       </Box>
-      <CButton onClick={() => router.push(nextPath)}>Selesai Pilih</CButton>
+      <CButton onClick={() => {
+        if (nextPath) {
+          router.push(nextPath)
+        } else if (typeof onClick === 'function') {
+          onClick()
+        }
+      }}>Selesai Pilih</CButton>
     </Box>
   );
 }
@@ -81,49 +100,55 @@ function CartEmptyState() {
   );
 }
 
-function CartItem({
-  product,
-  qty,
-  onClickDelete,
-  onIncrement,
-  onDecrement,
-}: {
-  product: iProduct;
+function CartItem(productData: {
+  product: iRegistryCartItem;
   qty: number;
   onClickDelete: (productId: string) => void;
-  onIncrement: (productId: string) => void;
-  onDecrement: (productId: string) => void;
+  onIncrement: (product: iRegistryCartItem) => void;
+  onDecrement: (product: iRegistryCartItem) => void;
+  isDeleteItemLoading: boolean;
 }) {
+  const {
+    product,
+    qty,
+    onClickDelete,
+    onIncrement,
+    onDecrement,
+    isDeleteItemLoading
+  } = productData
   return (
     <Box className="w-full pb-3 border-b border-gula last:border-b-0  ">
       <Box className="flex flex-col gap-y-1">
         <Box className="flex items-center gap-x-2">
           <Image
-            src={product.asset}
+            src={product.thumbnail_url}
             width={60}
             height={60}
             alt="product_image"
           />
-          <Text size="micro">{product.title}</Text>
+          <Text size="micro">{product.name}</Text>
         </Box>
         <Box className="flex items-center gap-x-2">
           <Box
-            onClick={() => onClickDelete(product.name)}
+            onClick={() => onClickDelete(product.id)}
             className="w-[60px] flex justify-center hover:bg-wortel text-gula hover:text-white py-1 cursor-pointer"
           >
-            <Text size="micro">Hapus</Text>
+            {isDeleteItemLoading ? <CircularProgress size={10} color="secondary" /> : (
+              <Text size="micro">Hapus</Text>
+
+            )}
           </Box>
           <Box className="flex gap-x-3 items-center">
             <Box
               className="cursor-pointer"
-              onClick={() => onDecrement(product.name)}
+              onClick={() => onDecrement(product)}
             >
               <Image src={minus_outline_gula} alt="minus_icon" />
             </Box>
             <Text size="tiny">{qty}</Text>
             <Box
               className="cursor-pointer"
-              onClick={() => onIncrement(product.name)}
+              onClick={() => onIncrement(product)}
             >
               <Image src={plus_outline_pandan} alt="plus_icon" />
             </Box>

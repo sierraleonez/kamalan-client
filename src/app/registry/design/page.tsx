@@ -4,33 +4,45 @@ import { Box } from "@mui/material";
 import Image from "next/image";
 
 import green_love from "assets/love.svg";
-import green_bg from "assets/design-bg/green.jpg";
 import Text from "@/components/atoms/text";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setSelectedDesign } from "@/lib/features/registry/registryCreationSlice";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
-
-const options: Array<DesignOption> = [
-  {
-    title: "Desain Normal",
-    priceTag: "Gratis",
-    items: [
-      {
-        label: "Kamalan Hijau",
-        value: "Pandan",
-      },
-      {
-        label: "Kamalan Putih",
-        value: "Kinantan",
-      },
-    ],
-  },
-];
+import { useGetRegistryDesignQuery } from "@/lib/services/design";
+import { iDesignPickerItem } from "@/lib/services/type";
+import { useGetCartItemsQuery, useStepTwoMutation } from "@/lib/services/registries";
+import { openToast } from "@/lib/features/global/toastSlice";
+import { useRouter } from "next/navigation";
 
 export default function DesignRegistry() {
-  const { selectedDesign, name, selectedProducts } = useAppSelector(state => state.registryCreation)
-  const bgSource = selectedDesign ? `/static/asset/design-bg/${selectedDesign}.png` : `/static/asset/design-bg/Pandan.png`
+  const dispatch = useAppDispatch()
+  const router = useRouter()
+  const { name, design_id: selectedDesign, id: registryId } = useAppSelector(state => state.registryCreation.registry)
+  const { data: products } = useGetCartItemsQuery(registryId)
+  const [submitStepTwo] = useStepTwoMutation()
+  const { data: designOptions } = useGetRegistryDesignQuery()
+  const bgSource = selectedDesign ? designOptions?.find(option => option.value === selectedDesign)?.asset_url : `/static/asset/design-bg/Pandan.png`
+  // const validationSchema = 
+  async function onSubmit() {
+    try {
+      if (selectedDesign) {
+        await submitStepTwo({
+          design_id: selectedDesign || "",
+          registry_id: registryId
+        })
+        router.push('/registry/form')
+      }
+    } catch (err) {
+      console.log(err)
+      dispatch(
+        openToast({
+          message: 'Something is wrong..'
+        })
+      )
+
+    }
+  }
   return (
     <Box className="grid grid-cols-6 gap-x-10 pb-10">
       <Box className="col-span-1">
@@ -40,33 +52,33 @@ export default function DesignRegistry() {
             <i>Silakan pilih desain Registry sesuai dengan seleramu!</i>
           </Text>
         </Box>
-        <RegistryDesignOptions designOptions={options} />
+        <RegistryDesignOptions designOptions={[{ title: 'Desain Normal', priceTag: 'Gratis', items: designOptions || [] }]} />
       </Box>
       <Box className="col-span-4 relative flex flex-col items-center justify-center">
         <Box className="absolute w-[441px] flex flex-col items-center justify-center gap-y-10 py-10">
           <Text variant="title" size="small" className="text-white" >{name}</Text>
           <Box className="grid grid-cols-4">
-            {selectedProducts.map((product, idx) => (
+            {(products || []).map((product, idx) => (
               <Link
-                key={product.product.name + idx}
+                key={product.name + idx}
                 className="text-start font-serif col-start-2 col-span-2 grid grid-cols-4 items-center gap-x-4"
-                href={product.product.name}
+                href={product.id}
                 target="_blank"
               >
                 <p className="text-kunyit text-6xl h-fit col-span-1 min-h-[64px]">
                   {idx + 1}
                 </p>
                 <p className="text-kemiri text-xl w-full h-fit col-span-3">
-                  {product.product.title}
+                  {product.name}
                 </p>
               </Link>
             ))}
           </Box>
         </Box>
-        <Image src={bgSource} width={1920} height={1080} alt="design-bg" />
+        <Image src={bgSource || ""} width={1920} height={1080} alt="design-bg" />
       </Box>
       <Box className="col-span-1 relative">
-        <ProductCart nextPath="/registry/form" />
+        <ProductCart onClick={onSubmit} />
       </Box>
     </Box>
   );
@@ -106,7 +118,7 @@ function RegistryDesignPickerItem({
 }) {
   const dispatch = useAppDispatch();
   const selectedDesign = useAppSelector(
-    (state) => state.registryCreation.selectedDesign
+    (state) => state.registryCreation.registry.design_id
   );
   const isActive = selectedDesign === value;
   const classActive = "bg-seledri border-seledri text-white font-black";
@@ -123,15 +135,10 @@ function RegistryDesignPickerItem({
   );
 }
 
-type iPickerItemProps = {
-  label: string;
-  value: string | number;
-};
-
 type DesignOption = {
   title: string;
   priceTag: string;
-  items: Array<iPickerItemProps>;
+  items: Array<iDesignPickerItem>;
 };
 
 function RegistryDesignOptions({

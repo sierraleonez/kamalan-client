@@ -1,3 +1,4 @@
+"use client"
 import { Box } from "@mui/material";
 import Image, { StaticImageData } from "next/image";
 
@@ -6,6 +7,8 @@ import green_bg from "assets/design-bg/share/green.jpg";
 
 import copy_icon from 'assets/utility/copy.svg'
 import RegistryShareCard from "@/components/client-wrapper/registry-share-card";
+import { useGetRegistryDetailQuery } from "@/lib/services/registries";
+import { useAppSelector } from "@/lib/hooks";
 
 type iProductDisplay = {
   name: string;
@@ -51,6 +54,9 @@ const MOCK_REGISTRY: iRegistry = {
 };
 
 export default function ShareRegistry() {
+  const registryId = useAppSelector(state => state.registryCreation.registry.id)
+  const { data: registryDetail } = useGetRegistryDetailQuery(registryId)
+  console.log(registryDetail)
   return (
     <Box className="w-full grid grid-cols-6 gap-y-20 py-20">
       <Box className="col-start-2 col-span-4 flex flex-col gap-y-20">

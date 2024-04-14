@@ -1,7 +1,7 @@
 "use client";
 
 import CButton from "@/components/atoms/button";
-import { Box, Checkbox, InputBase, Switch, TextField } from "@mui/material";
+import { Box, Checkbox, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField } from "@mui/material";
 import Image from "next/image";
 import { HTMLInputTypeAttribute, useState } from "react";
 import green_love from "assets/love.svg";
@@ -16,14 +16,14 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/lib/hooks";
-import {
-  setRegistryAddress,
-  setRegistryGreeting,
-  setRegistryPersonalInfo,
-  setRegistryPicture,
-} from "@/lib/features/registry/registryCreationSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { twMerge } from "tailwind-merge";
+import dayjs from "dayjs";
+import { useGetProvincesQuery, useLazyGetCitiesQuery, useLazyGetSubdistrictsQuery } from "@/lib/services/master/region";
+import { iPickerItemProps } from "@/types";
+import { useStepThreeMutation } from "@/lib/services/registries";
+import { iRegistryStepThreePayload } from "@/lib/services/type";
+import { openToast } from "@/lib/features/global/toastSlice";
 
 type RegistryInput = {
   "registry-greeting": string;
@@ -44,35 +44,69 @@ type RegistryInput = {
 
 export default function RegistryForm() {
   const router = useRouter();
+  const { event_date, name } = useAppSelector(state => state.registryCreation.registry)
   const [selectedImage, setSelectedImage] = useState<File>();
-  const methods = useForm<RegistryInput>();
+  const registryId = useAppSelector(state => state.registryCreation.registry.id)
+  const [submitStepThree] = useStepThreeMutation()
+  const methods = useForm<RegistryInput>({
+    defaultValues: {
+      "registry-name": name,
+      "registry-date": dayjs(event_date),
+      "registry-owner-province": ""
+    },
+    values: {
+      "registry-owner-province": "",
+      "registry-name": name,
+      "registry-date": dayjs(event_date),
+      "registry-greeting": "",
+      "registry-owner-district": "",
+      "registry-acknowledment": false,
+      "registry-address-detail": "",
+      "registry-owner-city": "",
+      "registry-owner-email": "",
+      "registry-owner-name": "",
+      "registry-owner-phone": "",
+      "registry-owner-postalCode": "",
+      "registry-owner-subdistrict": "",
+      "registry-picture": {  } as any
+    }
+  });
+
   const dispatch = useAppDispatch();
   const { handleSubmit, register, control } = methods;
 
-  function onSubmit(val: RegistryInput) {
-    dispatch(
-      setRegistryPersonalInfo({
-        name: val["registry-owner-name"],
-        phone: val["registry-owner-phone"],
-      })
-    );
 
-    dispatch(
-      setRegistryAddress({
+  async function onSubmit(val: RegistryInput) {
+    try {
+      const payload: iRegistryStepThreePayload = {
+        name: val["registry-name"],
         city: val["registry-owner-city"],
-        detail: val["registry-address-detail"],
-        district: val["registry-owner-district"],
+        detail_address: val["registry-address-detail"],
+        is_private: false,
+        is_published: false,
+        message: val["registry-greeting"],
+        phone_number: val["registry-owner-phone"],
+        postal_code: val["registry-owner-postalCode"],
+        province: val["registry-owner-province"],
+        registry_id: registryId,
         subdistrict: val["registry-owner-subdistrict"],
-        postalCode: val["registry-owner-postalCode"],
-        province: val["registry-owner-province"]
+        user_asset: selectedImage as File
+      }
+
+      let form = new FormData()
+      Object.entries(payload).forEach(([key, val]) => {
+        form.append(key, val)
       })
-    )
 
-    dispatch(setRegistryGreeting(val["registry-greeting"]))
-
-    dispatch(setRegistryPicture(val["registry-picture"]))
-
-    router.push("/registry/share");
+      await submitStepThree(form)
+      dispatch(openToast({
+        type: 'success',
+        message: 'Registry telah lengkap!'
+      }))
+      router.push("/registry/share");
+    } catch (err) {
+      
+    }
   }
   return (
     <Box className="pb-10">
@@ -170,7 +204,16 @@ function ImageUploadField({
 }
 
 function RightForm() {
-  const { register, control } = useFormContext();
+  const { register, control, getValues } = useFormContext();
+
+  const selectedProvince = getValues('registry-owner-province')
+  const selectedCity = getValues('registry-owner-city')
+  const { data: provinces } = useGetProvincesQuery()
+  console.log(getValues(), selectedProvince)
+  const [getCities, { data: cities }] = useLazyGetCitiesQuery()
+  const [getSubdistricts, { data: subdistricts }] = useLazyGetSubdistrictsQuery()
+  // const { data: cities } = useGetCitiesQuery(selectedProvince, { skip: !selectedProvince })
+  // const { data: subdistricts } = useGetSubdistrictsQuery(selectedCity, { skip: !selectedCity })
   return (
     <Box className="grid gap-x-5 gap-y-5">
       <InputWithLabel required label="Nama Acara" name="registry-name" />
@@ -199,21 +242,36 @@ function RightForm() {
         minRows={4}
         multiline
       />
-      <InputWithLabel
+      <Dropdown
+        inputId="province"
+        inputLabelId="province-label"
+        items={provinces || []}
+        onChange={async(e) => {
+
+          await getCities(e.target.value)
+        }}
         required
-        name="registry-owner-province"
         label="Provinsi"
+        name="registry-owner-province"
       />
-      <InputWithLabel required name="registry-owner-city" label="Kota" />
-      <InputWithLabel
+      <Dropdown
+        inputId="city"
+        inputLabelId="city-label"
+        items={cities || []}
+        onChange={async(e) => {
+          await getSubdistricts(e.target.value)
+        }}
         required
-        name="registry-owner-district"
-        label="Kelurahan"
+        label="Kota"
+        name="registry-owner-city"
       />
-      <InputWithLabel
+      <Dropdown
+        inputId="subdistrict"
+        inputLabelId="subdistrict-label"
+        items={subdistricts || []}
         required
-        name="registry-owner-subdistrict"
         label="Kecamatan"
+        name="registry-owner-subdistrict"
       />
       <InputWithLabel
         required
@@ -241,6 +299,7 @@ function InputWithLabel({
   required = false,
   multiline = false,
   minRows = 1,
+  defaultValue
 }: {
   label: string;
   type?: HTMLInputTypeAttribute;
@@ -248,6 +307,7 @@ function InputWithLabel({
   required?: boolean;
   multiline?: boolean;
   minRows?: number;
+  defaultValue?: string
 }) {
   const {
     register,
@@ -257,6 +317,7 @@ function InputWithLabel({
   return (
     <Box className="w-full">
       <TextField
+        defaultValue={defaultValue}
         multiline={multiline}
         minRows={minRows}
         error={!!err}
@@ -274,12 +335,14 @@ function DateInput({
   name,
   control,
   label,
+  defaultValue
 }: {
   name: string;
   control: Control;
   label: string;
+  defaultValue?: string | any;
 }) {
-  const { _formState: { errors } } = control
+  const { _formState: { errors }, _defaultValues } = control
   const err = errors[name]
   return (
     <Controller
@@ -289,6 +352,7 @@ function DateInput({
       render={({ field }) => (
         <DatePicker
           disablePast
+          defaultValue={_defaultValues[name]}
           label={label}
           slotProps={{
             textField: {
@@ -309,15 +373,47 @@ function PrivacySwitch({ control, name }: { control: Control<any>, name: string 
 
   return (
     <Controller name={name} defaultValue={false} control={control} render={({ field }) => (
-    <Box className="flex items-center">
-      <Text size="small" className={twMerge("font-black text-gula", _formValues[name] ? "" : active)}>
-        Privat
-      </Text>
-      <Switch onChange={event => field.onChange(event.target.checked) } />
-      <Text size="small" className={twMerge("font-black text-gula", _formValues[name] ? active : "")}>
-        Publik
-      </Text>
-    </Box>
-    )}/>
+      <Box className="flex items-center">
+        <Text size="small" className={twMerge("font-black text-gula", _formValues[name] ? "" : active)}>
+          Privat
+        </Text>
+        <Switch onChange={event => field.onChange(event.target.checked)} />
+        <Text size="small" className={twMerge("font-black text-gula", _formValues[name] ? active : "")}>
+          Publik
+        </Text>
+      </Box>
+    )} />
   );
+}
+
+function Dropdown({ name, inputId, inputLabelId, items, label, required = false, onChange }: { name: string; inputLabelId: string; inputId: string; label: string; items: Array<iPickerItemProps>; required?: boolean; onChange?: (e: SelectChangeEvent<any>) => void }) {
+  const { register, control, formState: { errors, defaultValues } } = useFormContext()
+  const reg = register(name, { required })
+  return (
+    <Controller name={name} control={control} render={({ field }) => (
+      <FormControl>
+        <InputLabel id={inputLabelId}>{label}</InputLabel>
+        <Select
+          labelId={inputLabelId}
+          id={inputId}
+          label={label}
+          error={!!errors[name]}
+          defaultValue={defaultValues?.[name]}
+          {...reg}
+          onChange={(e) => {
+            reg.onChange(e)
+            if (typeof onChange === 'function') {
+              onChange(e)
+            }
+          }}
+        >
+          {items.map(item => (
+            <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    )}
+
+    />
+  )
 }

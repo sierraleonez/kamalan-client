@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import Image, { StaticImageData } from "next/image";
 import LinkWrapper from "@/components/atoms/link-wrapper";
 import Text from "@/components/atoms/text";
+import "tailwindcss/tailwind.css";
 
 export default function HeroHalf({
   asset,
@@ -17,7 +18,7 @@ export default function HeroHalf({
       <Image src={asset} alt="hero-bg" className="absolute z-0" fill />
       <Box className="absolute w-full h-full flex items-end px-40 pb-40 ">
         <LinkWrapper rewritePath="/registry/event">
-          <Text className={labelColor} variant="title" size="giant">
+          <Text className={labelColor} variant="title" size="big">
             {title}
           </Text>
         </LinkWrapper>

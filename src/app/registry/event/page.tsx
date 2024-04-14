@@ -1,24 +1,19 @@
+"use client"
 import { Box } from "@mui/material";
 import EventHorizontalList from "@/components/organisms/event-horizontal-list";
 import EventFormModal from "@/components/organisms/event-form-modal";
-import { REGISTRY_EVENTS } from "../../api/event/dummy";
+import { useGetEventsQuery } from "@/lib/services/events";
+import { useStepOneMutation } from "@/lib/services/registries";
 
-type iEvent = {
-  title: string;
-  description: string;
-  key: string;
-};
-
-type EventList = Array<iEvent>;
-
-export default async function Registry() {
-  // const events = await getEvents();
-  const events = REGISTRY_EVENTS;
+export default function Registry() {
+  const { data } = useGetEventsQuery({ include_on: 'REGISTRY' })
+  const [submitStepOne, { isLoading }] = useStepOneMutation()
+  const events = data?.data;
 
   return (
     <Box>
-      <EventHorizontalList events={events} />
-      <EventFormModal />
+      <EventHorizontalList events={events || []} />
+      <EventFormModal onSubmit={submitStepOne} loading={isLoading} />
     </Box>
   );
 }

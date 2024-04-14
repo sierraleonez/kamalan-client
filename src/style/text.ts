@@ -4,11 +4,13 @@ import { DM_Serif_Display, Lato } from "next/font/google";
 const dm_serif_display = DM_Serif_Display({
   subsets: ["latin"],
   weight: "400",
+  display: 'swap'
 });
 
 const noto_serif_normal = Lato({
   subsets: ["latin"],
   weight: ["300", "400", "700", "900"],
+  display: 'swap'
 });
 export const fontFamily: { [key in textVariant]: string } = {
   copy: `${noto_serif_normal.className}`,
@@ -33,7 +35,7 @@ export const fontSize: iFontSize = {
     small: "text-5xl leading-10",
     tiny: "text-4xl leading-10",
     micro: "text-2xl",
-    giant: "text-[8rem] leading-none",
+    giant: "text-9xl leading-none",
     macro: "",
   },
 };

@@ -1,25 +1,6 @@
-import { iProduct } from "@/types";
+import { iRegistry, iRegistryCartItem } from "@/lib/services/type";
+import { iAddress, iPersonalInfo, iProduct, iRegistryCreationReducerInitialState, iSelectedProduct } from "@/types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
-type iSelectedProduct = {
-  product: iProduct;
-  variant: string;
-  qty: number;
-};
-
-type iPersonalInfo = {
-  name: string;
-  phone: string;
-};
-
-type iAddress = {
-  province: string;
-  city: string;
-  district: string;
-  subdistrict: string;
-  postalCode: string;
-  detail: string;
-};
 
 const personalInformation: iPersonalInfo = {
   name: "",
@@ -35,16 +16,28 @@ const address: iAddress = {
   detail: "",
 };
 
-const selectedProducts: Array<iSelectedProduct> = [];
-const initialState = {
-  name: "",
-  date: "",
+
+const selectedProducts: Array<iRegistryCartItem> = [];
+const initialState: iRegistryCreationReducerInitialState = {
+  // name: "",
+  // date: "",
   selectedProducts,
-  selectedDesign: "",
+  // selectedDesign: "",
   personalInformation,
   address,
-  greeting: "",
-  picture: "",
+  // greeting: "",
+  // picture: "",
+  registry: {
+    event_date: "",
+    id: "",
+    is_private: false,
+    is_published: false,
+    name: "",
+    user_id: "",
+    design_id: "",
+    message: "",
+    user_asset_url: ""
+  }
 };
 
 export const registrySlice = createSlice({
@@ -55,40 +48,40 @@ export const registrySlice = createSlice({
       const { date, name } = action.payload;
       Object.assign(state, { date, name });
     },
-    pushProductRegistry: (state, action: PayloadAction<iSelectedProduct>) => {
-      const sameProductIdx = state.selectedProducts.findIndex(product => {
-        const productTitle = product.product.name
-        const productVariant = product.variant
-        if (productTitle === action.payload.product.name && productVariant === action.payload.variant) {
-          return product
-        }
-      })
-      if (sameProductIdx === -1) {
-        state.selectedProducts.push(action.payload);
-      } else {
-        state.selectedProducts[sameProductIdx].qty++
-      }
-    },
-    removeProductFromCartRegistry: (state, action) => {
-      const newCart = state.selectedProducts.filter(
-        (product) => product.product.name !== action.payload
-      );
-      state.selectedProducts = newCart; 
-    },
-    increaseQtyProductCartRegistry: (state, action) => {
-      const productIdx = state.selectedProducts.findIndex(
-        (product) => product.product.name === action.payload
-      );
-      state.selectedProducts[productIdx].qty++;
-    },
-    decreaseQtyProductCartRegistry: (state, action) => {
-      const productIdx = state.selectedProducts.findIndex(
-        (product) => product.product.name === action.payload
-      );
-      state.selectedProducts[productIdx].qty--;
-    },
+    // pushProductRegistry: (state, action: PayloadAction<iRegistryCartItem>) => {
+    //   const sameProductIdx = state.selectedProducts.findIndex(product => {
+    //     const productTitle = product.name
+    //     const productVariant = product.product_variation_id
+    //     if (productTitle === action.payload.product.name && productVariant === action.payload.variant) {
+    //       return product
+    //     }
+    //   })
+    //   if (sameProductIdx === -1) {
+    //     state.selectedProducts.push(action.payload);
+    //   } else {
+    //     state.selectedProducts[sameProductIdx].qty++
+    //   }
+    // },
+    // removeProductFromCartRegistry: (state, action) => {
+    //   const newCart = state.selectedProducts.filter(
+    //     (product) => product.product.name !== action.payload
+    //   );
+    //   state.selectedProducts = newCart; 
+    // },
+    // increaseQtyProductCartRegistry: (state, action) => {
+    //   const productIdx = state.selectedProducts.findIndex(
+    //     (product) => product.product.name === action.payload
+    //   );
+    //   state.selectedProducts[productIdx].qty++;
+    // },
+    // decreaseQtyProductCartRegistry: (state, action) => {
+    //   const productIdx = state.selectedProducts.findIndex(
+    //     (product) => product.product.name === action.payload
+    //   );
+    //   state.selectedProducts[productIdx].qty--;
+    // },
     setSelectedDesign: (state, action) => {
-      state.selectedDesign = action.payload;
+      state.registry.design_id = action.payload;
     },
     setRegistryPersonalInfo: (state, action: PayloadAction<iPersonalInfo>) => {
       state.personalInformation = action.payload;
@@ -97,25 +90,32 @@ export const registrySlice = createSlice({
       state.address = action.payload;
     },
     setRegistryGreeting: (state, action) => {
-      state.greeting = action.payload;
+      state.registry.message = action.payload;
     },
     setRegistryPicture: (state, action) => {
-      state.picture = action.payload;
+      state.registry.user_asset_url = action.payload;
     },
+    setRegistryDetailFromAPI: (state, action: PayloadAction<iRegistry>) => {
+      state.registry = action.payload
+    },
+    setRegistryProductsFromAPI: (state, action: PayloadAction<Array<iRegistryCartItem>>) => {
+      state.selectedProducts = action.payload
+    }
   },
 });
 
 export const {
   setRegistryNameAndDate,
-  pushProductRegistry,
-  removeProductFromCartRegistry,
-  increaseQtyProductCartRegistry,
-  decreaseQtyProductCartRegistry,
+  // pushProductRegistry,
+  // removeProductFromCartRegistry,
+  // increaseQtyProductCartRegistry,
+  // decreaseQtyProductCartRegistry,
   setRegistryPersonalInfo,
   setRegistryAddress,
   setRegistryGreeting,
   setRegistryPicture,
   setSelectedDesign,
+  setRegistryDetailFromAPI
 } = registrySlice.actions;
 
 export default registrySlice.reducer;
