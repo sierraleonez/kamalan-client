@@ -98,7 +98,7 @@ export default function RegistryForm() {
         form.append(key, val)
       })
 
-      await submitStepThree(form)
+      await submitStepThree(form as unknown as iRegistryStepThreePayload)
       dispatch(openToast({
         type: 'success',
         message: 'Registry telah lengkap!'
