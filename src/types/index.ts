@@ -88,7 +88,7 @@ export type iAddress = {
 };
 
 export interface iRegistryCreationReducerInitialState {
-  // name: string;
+  name: string;
   // date: string;
   selectedProducts: Array<iRegistryCartItem>;
   // selectedDesign: string;
