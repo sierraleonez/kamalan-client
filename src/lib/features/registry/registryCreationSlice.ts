@@ -19,7 +19,7 @@ const address: iAddress = {
 
 const selectedProducts: Array<iRegistryCartItem> = [];
 const initialState: iRegistryCreationReducerInitialState = {
-  // name: "",
+  name: "",
   // date: "",
   selectedProducts,
   // selectedDesign: "",
