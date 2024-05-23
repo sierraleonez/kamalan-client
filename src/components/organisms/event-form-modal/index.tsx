@@ -18,7 +18,7 @@ type Input = {
   date: string;
 };
 
-export default function EventFormModal({ loading, onSubmit }: { onSubmit: (arg: iRegistryStepOnePayload) => Promise<any>; loading: boolean }) {
+export default function EventFormModal({ loading, onSubmit }: { onSubmit: (arg: iRegistryStepOnePayload) => any; loading: boolean }) {
   const dispatch = useAppDispatch();
   const { register, handleSubmit, control, formState } = useForm<Input>();
   const {
@@ -72,7 +72,7 @@ export default function EventFormModal({ loading, onSubmit }: { onSubmit: (arg: 
             {...register("name", { required: true })}
           />
           <DateInput
-            control={control}
+            control={control as any}
             name="date"
             required
             // label="Ta"
