@@ -332,6 +332,7 @@ function FilterSection({ section }: { section: iFilterSection }) {
               {
                 section.items.map(item => (
                   <FormControlLabel
+                    key={item.value}
                     control={
                       <Checkbox name={item.value} sx={{ py: 0, px: 1 }} />
                     }
@@ -353,7 +354,7 @@ function FilterSection({ section }: { section: iFilterSection }) {
               {
                 section.items.map(item => (
                   <FormControlLabel
-
+                    key={item.value}
                     label={item.label}
                     control={
                       <Radio defaultChecked={false} />

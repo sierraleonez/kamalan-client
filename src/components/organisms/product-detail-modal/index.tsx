@@ -48,6 +48,7 @@ export default function ProductDetailModal() {
     } else {
       return []
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productDetail?.id])
 
   const dispatch = useAppDispatch();

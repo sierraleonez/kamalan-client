@@ -33,7 +33,7 @@ export function CategoryBox({ categories }: { categories: Array<iCategory> }) {
     <Box className="flex gap-x-3 items-center justify-center flex-wrap gap-y-3">
       {
         categories.map(item => (
-          <CategoryItem onClick={() => { setSelectedCategory(item.value) }} item={item} active={selectedCategory === item.value} />
+          <CategoryItem key={item.label} onClick={() => { setSelectedCategory(item.value) }} item={item} active={selectedCategory === item.value} />
         ))
       }
     </Box>

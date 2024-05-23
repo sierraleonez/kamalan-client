@@ -31,7 +31,7 @@ export default function ShareRegistrySection() {
       <Box className="flex gap-x-10">
         {
           SHARE_REGISTRY_OPTIONS.map(option => (
-            <CButton styleType="link">
+            <CButton key={option.id} styleType="link">
               <Image src={option.icon} alt={option.id} />
             </CButton>
           ))

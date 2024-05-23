@@ -30,6 +30,7 @@ export default function DesignRegistry() {
       const defaultDesign = designOptions[0].value
       dispatch(setSelectedDesign(defaultDesign))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [designOptions, selectedDesign])
 
   // const validationSchema = 
@@ -55,7 +56,7 @@ export default function DesignRegistry() {
   return (
     <Box className="grid grid-cols-6 gap-x-10 pb-10">
       {
-         isLoading && (
+        isLoading && (
           <Box className="absolute top-1/2 right-1/2 z-50 bg-white px-20 py-10 rounded-lg">
             <CircularProgress />
           </Box>
