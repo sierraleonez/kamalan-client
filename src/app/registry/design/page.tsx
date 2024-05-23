@@ -1,6 +1,6 @@
 "use client";
 import ProductCart from "@/components/molecules/cart";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import Image from "next/image";
 
 import green_love from "assets/love.svg";
@@ -14,6 +14,7 @@ import { iDesignPickerItem } from "@/lib/services/type";
 import { useGetCartItemsQuery, useStepTwoMutation } from "@/lib/services/registries";
 import { openToast } from "@/lib/features/global/toastSlice";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function DesignRegistry() {
   const dispatch = useAppDispatch()
@@ -21,8 +22,16 @@ export default function DesignRegistry() {
   const { name, design_id: selectedDesign, id: registryId } = useAppSelector(state => state.registryCreation.registry)
   const { data: products } = useGetCartItemsQuery(registryId)
   const [submitStepTwo] = useStepTwoMutation()
-  const { data: designOptions } = useGetRegistryDesignQuery()
-  const bgSource = selectedDesign ? designOptions?.find(option => option.value === selectedDesign)?.asset_url : `/static/asset/design-bg/Pandan.png`
+  const { data: designOptions, isLoading } = useGetRegistryDesignQuery()
+  const bgSource = selectedDesign ? designOptions?.find(option => option.value === selectedDesign)?.asset_url : designOptions?.[0].asset_url
+
+  useEffect(() => {
+    if (!selectedDesign && designOptions?.length) {
+      const defaultDesign = designOptions[0].value
+      dispatch(setSelectedDesign(defaultDesign))
+    }
+  }, [designOptions, selectedDesign])
+
   // const validationSchema = 
   async function onSubmit() {
     try {
@@ -45,6 +54,14 @@ export default function DesignRegistry() {
   }
   return (
     <Box className="grid grid-cols-6 gap-x-10 pb-10">
+      {
+         isLoading && (
+          <Box className="absolute top-1/2 right-1/2 z-50 bg-white px-20 py-10 rounded-lg">
+            <CircularProgress />
+          </Box>
+
+        )
+      }
       <Box className="col-span-1">
         <Box className="border py-8 border-gula border-dashed w-full flex flex-col items-center justify-center gap-y-3">
           <Image src={green_love} alt="green_love" width={60} />

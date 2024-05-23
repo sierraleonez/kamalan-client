@@ -37,7 +37,6 @@ export default function ProductCart({ nextPath, onClick }: { nextPath?: string; 
   async function onIncrement(product: iRegistryCartItem) {
     const targetQty = product.current_qty + 1
     const stockQty = product.stock_qty
-    console.log(targetQty, stockQty)
     if (targetQty < stockQty) {
       await updateItem({ params: product.id, body: { qty: targetQty } })
     }
@@ -74,7 +73,7 @@ export default function ProductCart({ nextPath, onClick }: { nextPath?: string; 
           </Box>
         )}
       </Box>
-      <CButton onClick={() => {
+      <CButton className="py-1 text-lg px-0 w-full" onClick={() => {
         if (nextPath) {
           router.push(nextPath)
         } else if (typeof onClick === 'function') {

@@ -5,6 +5,8 @@ import Image from "next/image";
 import KamalanLogoGreen from "assets/kamalan_logo_green.svg";
 import Link from "next/link";
 
+import { NavbarIconClient } from "./client-wrapper";
+
 type iBreadcrumbStep = {
   id: string;
   title: string;
@@ -56,6 +58,7 @@ export default function RegistryNavbar({
         <Box className="col-span-4 justify-self-center">
           {showBreadcrumb && <Breadcrumb crumbs={breadcrumb} />}
         </Box>
+        <NavbarIconClient/>
       </Box>
     </Box>
   );

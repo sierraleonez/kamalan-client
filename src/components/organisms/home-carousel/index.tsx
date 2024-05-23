@@ -36,56 +36,48 @@ const DUMMY_CAROUSEL = [
       subtitle: "Acaramu sebentar lagi!",
       desc: "Buat daftar hadiah yang kamu inginkan lalu bagikan ke teman & keluargamu secara online hanya dengan tiga langkah mudah!",
     },
-    stepSection: [
-      {
-        content: (
-          <>
-            Tentukan Acara <br />
-            Specialmu
-          </>
-        ),
-        icon: bell_icon,
-        step: 1,
-      },
-      {
-        content: (
-          <>
-            Pilih Hadiah
-            <br />
-            Favoritmu
-          </>
-        ),
-        icon: gift_icon,
-        step: 2,
-        containerClassname: "col-start-2",
-      },
-      {
-        content: (
-          <>
-            Bagi ke Orang
-            <br />
-            Terdekatmu
-          </>
-        ),
-        icon: message_icon,
-        step: 3,
-        containerClassname: "col-start-3",
-      },
-    ],
-    action: () => (
-      <CButton className="bg-kunyit px-7 py-1 font-black">
-        Jelajahi Hadiah
-      </CButton>
-    )
-  },
-  {
-    bg: gift_hero_bg_url,
-    titleSection: {
-      title: "Gift Shop",
-      subtitle: "Waktunya memberi kejutan!",
-      desc: "Beri hadiah untuk merayakan berbagai momen spesial dengan ragam produk dari brand lokal yang telah dikurasi asli Indonesia!",
-    },
-    stepSection: [
+    // stepSection: [
+    //   {
+    //     content: (
+    //       <>
+    //         Tentukan Acara <br />
+    //         Specialmu
+    //       </>
+    //     ),
+    //     icon: bell_icon,
+    //     step: 1,
+    //   },
+    //   {
+    //     content: (
+    //       <>
+    //         Pilih Hadiah
+    //         <br />
+    //         Favoritmu
+    //       </>
+    //     ),
+    //     icon: gift_icon,
+    //     step: 2,
+    //     containerClassname: "col-start-2",
+    //   },
+    //   {
+    //     content: (
+    //       <>
+    //         Bagi ke Orang
+    //         <br />
+    //         Terdekatmu
+    //       </>
+    //     ),
+    //     icon: message_icon,
+    //     step: 3,
+    //     containerClassname: "col-start-3",
+    //   },
+    // ],
+    // action: () => (
+    //   <CButton className="bg-kunyit px-7 py-1 font-black">
+    //     Jelajahi Hadiah
+    //   </CButton>
+    // )
+      stepSection: [
       {
         content: (
           <>
@@ -136,6 +128,64 @@ const DUMMY_CAROUSEL = [
       </Box>
     )
   },
+  // {
+  //   bg: gift_hero_bg_url,
+  //   titleSection: {
+  //     title: "Gift Shop",
+  //     subtitle: "Waktunya memberi kejutan!",
+  //     desc: "Beri hadiah untuk merayakan berbagai momen spesial dengan ragam produk dari brand lokal yang telah dikurasi asli Indonesia!",
+  //   },
+  //   stepSection: [
+  //     {
+  //       content: (
+  //         <>
+  //           Pilih Hadiah <br />
+  //           yang sesuai
+  //         </>
+  //       ),
+  //       icon: gift_icon,
+  //       step: 1,
+  //     },
+  //     {
+  //       content: (
+  //         <>
+  //           Tulis
+  //           <br />
+  //           Kartu Ucapan
+  //         </>
+  //       ),
+  //       icon: greeting_icon,
+  //       step: 2,
+  //       containerClassname: "col-start-2",
+  //     },
+  //     {
+  //       content: (
+  //         <>
+  //           Isi Data Kirim
+  //           <br />
+  //           lalu Bayar
+  //         </>
+  //       ),
+  //       icon: list_icon,
+  //       step: 3,
+  //       containerClassname: "col-start-3",
+  //     },
+  //   ],
+  //   action: () => (
+  //     <Box className="flex items-center gap-x-12 py-2">
+  //       <Link href="/">
+  //         <Text className="text-pandan font-bold">
+  //           Cari Registry
+  //         </Text>
+  //       </Link>
+  //       <CButton className="px-7 py-1 font-black">
+  //         <Link href="/registry/event">
+  //         Buat Registry
+  //         </Link>
+  //       </CButton>
+  //     </Box>
+  //   )
+  // },
 ];
 export default function HomeCarousel() {
   return (

@@ -29,8 +29,8 @@ export default function CButton({
   styleType?: ButtonStyleType
 }) {
   const outerStyle: {[key in ButtonStyleType]: string} = {
-    border: "border-pandan border-solid border-2",
-    fill: "bg-pandan",
+    border: "border-pandan border-solid border-2 px-12 py-3 text-white font-black text-xl",
+    fill: "bg-pandan px-12 py-3 text-white font-black text-xl",
     link: "px-0"
   }
   const buttonStyle = outerStyle[styleType]
@@ -40,7 +40,7 @@ export default function CButton({
       form={form}
       type={type}
       onClick={onClick}
-      className={mergeClass("px-12 py-3 text-white font-black text-xl w-fit", fontFamily.copy, className, buttonStyle)}
+      className={mergeClass("w-fit", fontFamily.copy, buttonStyle, className)}
     >
       {
         loading ? <CircularProgress size={20} style={{ color: '#FFF' }} /> : (

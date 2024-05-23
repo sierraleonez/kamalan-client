@@ -193,8 +193,8 @@ export default function Home() {
       <Box className="w-full grid gap-y-32">
         <LoginFormModal/>
         <RegisterFormModal/>
-        {/* <HomeCarousel/> */}
-        <HomeHero
+        <HomeCarousel/>
+        {/* <HomeHero
           leftHero={{
             asset: registry_hero_bg_url,
             title: (
@@ -213,7 +213,7 @@ export default function Home() {
               </>
             ),
           }}
-        />
+        /> */}
         <Body />
         <Footer />
       </Box>

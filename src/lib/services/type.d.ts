@@ -190,7 +190,7 @@ export interface iDetailRegistry {
     created_at: string;
     updated_at: string;
   }>;
-  productVariation: Array<{
+  product_variation: Array<{
     id: string;
     product_id: string;
     name: string;

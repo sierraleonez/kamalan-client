@@ -1,9 +1,9 @@
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 import { iAuthReducerInitialState } from "@/types";
 
+const baseUrl = process.env.NEXT_PUBLIC_API_HOST
 export const baseQuery = fetchBaseQuery({
-  // baseUrl: 'https://monkfish-app-jc37p.ondigitalocean.app/api/'
-  baseUrl: 'http://localhost:3333/api',
+  baseUrl,
   prepareHeaders: (headers, { getState }) => {
     const t: any = getState()
     const authState: iAuthReducerInitialState = t.auth

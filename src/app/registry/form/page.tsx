@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { twMerge } from "tailwind-merge";
 import dayjs from "dayjs";
-import { useGetProvincesQuery, useLazyGetCitiesQuery, useLazyGetSubdistrictsQuery } from "@/lib/services/master/region";
+import { useGetCitiesQuery, useGetProvincesQuery, useGetSubdistrictsQuery, useLazyGetCitiesQuery, useLazyGetSubdistrictsQuery } from "@/lib/services/master/region";
 import { iPickerItemProps } from "@/types";
 import { useStepThreeMutation } from "@/lib/services/registries";
 import { iRegistryStepThreePayload } from "@/lib/services/type";
@@ -45,6 +45,7 @@ type RegistryInput = {
 export default function RegistryForm() {
   const router = useRouter();
   const { event_date, name } = useAppSelector(state => state.registryCreation.registry)
+  const email = useAppSelector(state => state.auth.email)
   const [selectedImage, setSelectedImage] = useState<File>();
   const registryId = useAppSelector(state => state.registryCreation.registry.id)
   const [submitStepThree] = useStepThreeMutation()
@@ -63,7 +64,7 @@ export default function RegistryForm() {
       "registry-acknowledment": false,
       "registry-address-detail": "",
       "registry-owner-city": "",
-      "registry-owner-email": "",
+      "registry-owner-email": email,
       "registry-owner-name": "",
       "registry-owner-phone": "",
       "registry-owner-postalCode": "",
@@ -117,12 +118,14 @@ export default function RegistryForm() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <Box className="flex flex-col gap-y-4">
+            <Box>
             <ImageUploadField
               control={control}
               name="registry-picture"
               selectedImage={selectedImage}
               setSelectedImage={setSelectedImage}
             />
+            </Box>
 
             <Text variant="title" size="medium" className="text-pandan">
               Mawar&apos;s Wedding Registry
@@ -181,8 +184,10 @@ function ImageUploadField({
         <Image
           src={URL.createObjectURL(selectedImage)}
           alt="selected_image"
-          width={1920}
-          height={1080}
+          className="h-80"
+          width={654}
+          height={400}
+
         />
       ) : (
         <>
@@ -209,17 +214,15 @@ function RightForm() {
   const selectedProvince = getValues('registry-owner-province')
   const selectedCity = getValues('registry-owner-city')
   const { data: provinces } = useGetProvincesQuery()
-  console.log(getValues(), selectedProvince)
   const [getCities, { data: cities }] = useLazyGetCitiesQuery()
   const [getSubdistricts, { data: subdistricts }] = useLazyGetSubdistrictsQuery()
-  // const { data: cities } = useGetCitiesQuery(selectedProvince, { skip: !selectedProvince })
-  // const { data: subdistricts } = useGetSubdistrictsQuery(selectedCity, { skip: !selectedCity })
   return (
     <Box className="grid gap-x-5 gap-y-5">
       <InputWithLabel required label="Nama Acara" name="registry-name" />
       <DateInput control={control} label="Tanggal Acara" name="registry-date" />
       <InputWithLabel
         required
+        defaultValue=""
         name="registry-owner-name"
         label="Nama Pemilik Acara"
       />
@@ -386,7 +389,7 @@ function PrivacySwitch({ control, name }: { control: Control<any>, name: string 
   );
 }
 
-function Dropdown({ name, inputId, inputLabelId, items, label, required = false, onChange }: { name: string; inputLabelId: string; inputId: string; label: string; items: Array<iPickerItemProps>; required?: boolean; onChange?: (e: SelectChangeEvent<any>) => void }) {
+function Dropdown({ name, inputId, inputLabelId, items, label, required = false, onChange }: { name: string; inputLabelId: string; inputId: string; label?: string; items: Array<iPickerItemProps>; required?: boolean; onChange?: (e: SelectChangeEvent<any>) => void }) {
   const { register, control, formState: { errors, defaultValues } } = useFormContext()
   const reg = register(name, { required })
   return (

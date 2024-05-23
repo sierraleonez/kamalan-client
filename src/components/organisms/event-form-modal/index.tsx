@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { closeEventModal } from "@/lib/features/global/modalSlice";
 import { setRegistryNameAndDate } from "@/lib/features/registry/registryCreationSlice";
 import { iRegistryStepOnePayload } from "@/lib/services/type";
+import DateInput from "@/components/molecules/input/date";
 
 type Input = {
   name: string;
@@ -19,7 +20,7 @@ type Input = {
 
 export default function EventFormModal({ loading, onSubmit }: { onSubmit: (arg: iRegistryStepOnePayload) => Promise<any>; loading: boolean }) {
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm<Input>();
+  const { register, handleSubmit, control, formState } = useForm<Input>();
   const {
     eventDetailForm: { open, props },
   } = useAppSelector((state) => state.modal);
@@ -40,11 +41,15 @@ export default function EventFormModal({ loading, onSubmit }: { onSubmit: (arg: 
     push(`/registry/${props.eventId}/product`);
   }
 
+  function onClose() {
+    dispatch(closeEventModal());
+  }
+
   return (
     <Dialog
       TransitionComponent={MuiTransition}
       open={open}
-      // onClose={onClose}
+      onClose={onClose}
       className="flex items-center justify-center"
     >
       <Box className="bg-white px-8 w-[30rem] flex flex-col gap-y-12 pt-4 pb-12 items-center">
@@ -66,12 +71,18 @@ export default function EventFormModal({ loading, onSubmit }: { onSubmit: (arg: 
             placeholder="Nama Acara"
             {...register("name", { required: true })}
           />
-          <TextField
+          <DateInput
+            control={control}
+            name="date"
+            required
+            // label="Ta"
+          />
+          {/* <TextField
             type="date"
             fullWidth
             placeholder="Tanggal Acara"
             {...register("date", { required: true })}
-          />
+          /> */}
         </form>
         <CButton loading={loading} form="eventDetail" type="submit">
           <Text variant="copy" size="medium" className="font-black">

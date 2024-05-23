@@ -91,6 +91,12 @@ export const RegistriesApi = createApi({
         method: 'post',
         body
       })
+    }),
+    showPublicRegistry: builder.query<iResponse<{}>, string>({
+      query: params => ({
+        url: `public/registry-detail/${params}`,
+        method: 'get'
+      })
     })
   }),
 });
@@ -103,5 +109,6 @@ export const {
   useAddToRegistryCartMutation,
   useDeleteRegistryCartItemMutation,
   useUpdateCartItemMutation,
-  useGetRegistryDetailQuery
+  useGetRegistryDetailQuery,
+  useShowPublicRegistryQuery,
 } = RegistriesApi;

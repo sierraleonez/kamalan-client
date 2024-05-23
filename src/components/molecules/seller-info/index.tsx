@@ -8,7 +8,7 @@ export default function SellerInfo({
   brand,
   location,
 }: {
-  logo: string;
+  logo: string | StaticImageData;
   brand: string;
   location: string;
 }) {

@@ -1,7 +1,6 @@
-"use client"
 import Text from "@/components/atoms/text";
 import { Box, Checkbox, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { Controller, FormProvider, UseFormRegister, useForm, useFormContext } from "react-hook-form";
+import { FormProvider, UseFormRegister, useForm, useFormContext } from "react-hook-form";
 
 import dummy_store_icon from 'assets/utility/dummy-logo.png'
 import dummy_product_thumb from 'assets/dummy/dummy-icon-0.png'
@@ -9,6 +8,8 @@ import Image, { StaticImageData } from "next/image";
 import SellerInfo from "@/components/molecules/seller-info";
 import InputWithLabel from "@/components/molecules/input";
 import CButton from "@/components/atoms/button";
+import { useShowPublicRegistryQuery } from "@/lib/services/registries";
+import RegistryShareCard from "@/components/client-wrapper/registry-share-card";
 
 const DUMMY_DELIVERY_OPTION = [
   {
@@ -76,10 +77,11 @@ const DUMMY_CHECKOUT_PRODUCT_LIST = [
 ]
 
 export default function RegistryDynamicLink({ params }: { params: { id: string } }) {
-  const methods = useForm()
+  const id = params.id
   return (
     <Box className="flex flex-col px-28 items-center justify-center gap-y-16 w-full">
-      <Text size="small">Hadiah ini akan dikirim ke Mawar yang berada di Bintaro</Text>
+      <RegistryShareCard registryId={id}/>
+      {/* <Text size="small">Hadiah ini akan dikirim ke Mawar yang berada di Bintaro</Text>
       <FormProvider {...methods}>
         <form className="w-full" onSubmit={methods.handleSubmit((e) => console.log(e))}>
           <Box className="grid grid-cols-2 w-full gap-x-28">
@@ -117,7 +119,7 @@ export default function RegistryDynamicLink({ params }: { params: { id: string }
             </Box>
           </Box>
         </form>
-      </FormProvider>
+      </FormProvider> */}
     </Box>
   )
 }
@@ -134,7 +136,7 @@ type iBrandDetail = {
   id: string
   name: string
   location: string
-  icon: StaticImageData
+  icon: StaticImageData | string
 }
 
 type iProductCheckout = {

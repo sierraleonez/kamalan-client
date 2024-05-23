@@ -1,7 +1,18 @@
 import {
   Box,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
   InputAdornment,
+  InputLabel,
+  MenuItem,
   OutlinedInput,
+  Radio,
+  RadioGroup,
+  Select,
+  Slider,
+  TextField,
   Typography,
 } from "@mui/material";
 import Image, { StaticImageData } from "next/image";
@@ -12,24 +23,34 @@ import carousel_img_1 from "assets/events/registry/wedding/carousel/1.jpg";
 import carousel_img_2 from "assets/events/registry/wedding/carousel/2.jpg";
 import carousel_img_3 from "assets/events/registry/wedding/carousel/3.jpg";
 
-import product_1 from "assets/events/registry/wedding/product/1.jpg";
-import product_2 from "assets/events/registry/wedding/product/2.jpg";
-import product_3 from "assets/events/registry/wedding/product/3.jpg";
 import search_icon from "assets/utility/search.svg";
 import ProductCard from "@/components/molecules/product-card";
 import ProductDetailModal from "@/components/organisms/product-detail-modal";
 import ClientProductList from "@/components/client-wrapper/product-list";
 import ProductDetailModalClient from "@/components/organisms/product-detail-modal/client-wrapper";
+import Dropdown from "@/components/molecules/input/dropdown";
+import { FormProvider } from "react-hook-form";
+import Text from "@/components/atoms/text";
+import all_active from "assets/utility/categories/all-active.png"
+import home_inactive from "assets/utility/categories/home-inactive.png"
+import bath_inactive from "assets/utility/categories/bath-inactive.png"
+import couple_inactive from "assets/utility/categories/couple-inactive.png"
+import masak_inactive from "assets/utility/categories/masak-inactive.png"
+import CButton from "@/components/atoms/button";
+import { CategoryBox, CategoryItem, SortBox } from "./client-component";
+
 
 type iFilterSections = Array<iFilterSection>;
 type iFilterItem = {
   label: string;
   value: string;
+  icon?: StaticImageData
 };
 
 type iFilterSection = {
   kind: string;
   items: Array<iFilterItem>;
+  type: 'option' | 'checkbox' | 'radio' | 'range'
 };
 
 type iCarouselItemProps = {
@@ -48,78 +69,44 @@ type iProduct = {
   location: string;
 };
 
-const DUMMY_WEDDING_PRODUCTS = [
+interface iCategory {
+  label: string;
+  value: string;
+  icon: StaticImageData | string;
+}
+
+const CATEGORIES = [
   {
-    name: "product_1",
-    asset: product_1,
-    title: "Cute Bouequet Indonesian Flowers",
-    price: "499.000",
-    seller: "Merekah Ruah",
-    location: "Bandung",
+    label: "Semuanya",
+    value: "all",
+    icon: all_active,
   },
   {
-    name: "product_2",
-    asset: product_2,
-    title: "Cute Bouequet Indonesian Flowers",
-    price: "499.000",
-    seller: "Merekah Ruah",
-    location: "Bandung",
+    label: "Dekorasi Rumah",
+    value: "dekor",
+    icon: home_inactive,
   },
   {
-    name: "product_3",
-    asset: product_3,
-    title: "Cute Bouequet Indonesian Flowers",
-    price: "499.000",
-    seller: "Merekah Ruah",
-    location: "Bandung",
+    label: "Alat Masak",
+    value: "masak",
+    icon: masak_inactive,
   },
-];
+  {
+    label: "Bath & Body",
+    value: "bath",
+    icon: bath_inactive,
+  },
+  {
+    label: "Barang Couple",
+    value: "couple",
+    icon: couple_inactive,
+  },
+]
 
 const FILTER_SECTIONS: iFilterSections = [
   {
-    kind: "Kategori",
-    items: [
-      {
-        label: "Dekorasi Rumah",
-        value: "dekor",
-      },
-      {
-        label: "Alat Masak",
-        value: "masak",
-      },
-      {
-        label: "Kamar Tidur",
-        value: "kamar",
-      },
-      {
-        label: "Bath & Body",
-        value: "bath",
-      },
-      {
-        label: "Barang Couple",
-        value: "couple",
-      },
-    ],
-  },
-  {
-    kind: "Jenis",
-    items: [
-      {
-        label: "Voucher",
-        value: "voucher",
-      },
-      {
-        label: "Hampers",
-        value: "hampers",
-      },
-      {
-        label: "Satuan",
-        value: "satuan",
-      },
-    ],
-  },
-  {
     kind: "Brand",
+    type: 'option',
     items: [
       {
         label: "Brand A",
@@ -136,7 +123,26 @@ const FILTER_SECTIONS: iFilterSections = [
     ],
   },
   {
+    kind: "Jenis",
+    type: 'checkbox',
+    items: [
+      {
+        label: "Voucher",
+        value: "voucher",
+      },
+      {
+        label: "Hampers",
+        value: "hampers",
+      },
+      {
+        label: "Satuan",
+        value: "satuan",
+      },
+    ],
+  },
+  {
     kind: "Harga",
+    type: 'range',
     items: [
       {
         label: "< Rp 500.000",
@@ -150,6 +156,7 @@ const FILTER_SECTIONS: iFilterSections = [
   },
   {
     kind: "Wilayah",
+    type: 'radio',
     items: [
       {
         label: "Jakarta",
@@ -197,18 +204,36 @@ export default function EventShop({ params }: { params: { event: string } }) {
       <FilterAndSearch />
       <Box className="grid gap-y-5 col-span-4">
         <RegistryCarousel />
+        <Box className="grid grid-cols-9 gap-x-5 gap-y-5">
+          {/* Search Box */}
+          <Box className="col-span-2">
+            <SearchBox />
+          </Box>
+
+          {/* Sort Box */}
+          <Box className="col-start-8 col-span-2">
+            <SortBox/>
+          </Box>
+
+          {/* Category Box */}
+          <Box className="col-start-2 col-span-7">
+            <CategoryBox categories={CATEGORIES} />
+          </Box>
+
+
+        </Box>
         <ProductList eventId={eventId} />
       </Box>
       <RegistryCart />
 
-      <ProductDetailModalClient/>
+      <ProductDetailModalClient />
     </Box>
   );
 }
 
 function FilterAndSearch() {
   return (
-    <Box className="col-span-1 relative">
+    <Box className="col-span-1 relative w-full flex-1">
       <FilterAndSearchSection filterSections={FILTER_SECTIONS} />
     </Box>
   );
@@ -235,7 +260,7 @@ function ProductList({ eventId }: { eventId: string }) {
 function RegistryCart() {
   return (
     <Box className="col-span-1 relative">
-      <ProductCart  nextPath="/registry/design"/>
+      <ProductCart nextPath="/registry/design" />
     </Box>
   );
 }
@@ -248,36 +273,42 @@ function ProductCarouselItem({ alt, src }: iCarouselItemProps) {
   );
 }
 
+function SearchBox() {
+  return (
+    <TextField
+      fullWidth
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <Image src={search_icon} alt="search-icon" />
+          </InputAdornment>
+        )
+      }}
+      placeholder="Cari di sini..."
+      sx={{
+        '& .MuiOutlinedInput-input': {
+          paddingY: '6px'
+        }
+      }}
+    />
+  )
+}
+
 function FilterAndSearchSection({
   filterSections,
 }: {
   filterSections: iFilterSections;
 }) {
   return (
-    <Box className="grid gap-y-5 fixed w-inherit max-w-[inherit]">
-      <SearchBox />
+    <Box className="grid gap-y-5 fixed max-w-[inherit]">
       <FilterBox sections={filterSections} />
-    </Box>
-  );
-}
-function SearchBox() {
-  return (
-    <Box className=" ">
-      <OutlinedInput
-        placeholder="Cari gift"
-        endAdornment={
-          <InputAdornment position="end">
-            <Image src={search_icon} alt="search-icon" />
-          </InputAdornment>
-        }
-      />
     </Box>
   );
 }
 
 function FilterBox({ sections }: { sections: iFilterSections }) {
   return (
-    <Box className="grid gap-y-1">
+    <Box className="grid gap-y-1 w-full">
       {sections.map((section) => (
         <FilterSection key={section.kind} section={section} />
       ))}
@@ -288,13 +319,51 @@ function FilterBox({ sections }: { sections: iFilterSections }) {
 function FilterSection({ section }: { section: iFilterSection }) {
   return (
     <Box className="grid gap-y-2 border-b border-gula pb-2">
-      <Typography className="text-pandan" variant="h5">
+      <Text className="text-pandan" variant="title" size="micro">
         {section.kind}
-      </Typography>
+      </Text>
       <Box className="grid">
-        {section.items.map((item) => (
+        {section.type === 'option' && section.items.map((item) => (
           <FilterItem key={item.value} item={item} />
         ))}
+        {
+          section.type === 'checkbox' && (
+            <FormGroup>
+              {
+                section.items.map(item => (
+                  <FormControlLabel
+                    control={
+                      <Checkbox name={item.value} sx={{ py: 0, px: 1 }} />
+                    }
+                    label={item.label}
+                  />
+                ))
+              }
+            </FormGroup>
+          )
+        }
+        {
+          section.type === 'range' && (
+            <Slider />
+          )
+        }
+        {
+          section.type === 'radio' && (
+            <RadioGroup defaultChecked={false}>
+              {
+                section.items.map(item => (
+                  <FormControlLabel
+
+                    label={item.label}
+                    control={
+                      <Radio defaultChecked={false} />
+                    }
+                  />
+                ))
+              }
+            </RadioGroup>
+          )
+        }
       </Box>
     </Box>
   );
@@ -303,13 +372,9 @@ function FilterSection({ section }: { section: iFilterSection }) {
 function FilterItem({ item }: { item: iFilterItem }) {
   return (
     <Box>
-      <Typography
-        key={item.value}
-        variant="button"
-        fontFamily={"Helvetica Neue"}
-      >
+      <Text className="font-light">
         {item.label}
-      </Typography>
+      </Text>
     </Box>
   );
 }

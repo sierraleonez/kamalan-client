@@ -1,7 +1,10 @@
+import Text from "@/components/atoms/text";
 import { Box } from "@mui/material";
 import dayjs from "dayjs";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
+import kamalan_white_icon from 'assets/kamalan_icon_green.svg'
+import { RegistryMagicLinkRow } from "@/components/atoms/registry-magic-link";
 
 type iProductDisplay = {
   name: string;
@@ -9,6 +12,7 @@ type iProductDisplay = {
 };
 
 type iRegistry = {
+  id: string;
   bgUrl: StaticImageData | string;
   userImageUrl: StaticImageData | string;
   registryName: string;
@@ -22,7 +26,7 @@ export default function RegistryCard({ registry }: { registry: iRegistry }) {
     <Box>
       <Image
         src={registry.userImageUrl}
-        className="w-full z-0"
+        className="w-full z-0 h-64"
         width={1920}
         height={1080}
         alt="user-image"
@@ -53,7 +57,7 @@ export default function RegistryCard({ registry }: { registry: iRegistry }) {
             </Box>
           </Box>
 
-          <Box className="bg-salam h-[2px] w-full" />
+          <Box className="bg-salam h-[1px] w-full" />
 
           <p className="text-susu">
             Beberapa hadiah yang kan menyenangkan hati:
@@ -75,6 +79,18 @@ export default function RegistryCard({ registry }: { registry: iRegistry }) {
                 </p>
               </Link>
             ))}
+          </Box>
+
+          <Box className="bg-salam h-[1px] w-full" />
+
+          <Box className="flex flex-col gap-y-8 items-center">
+            <Text className="text-white font-bold">Bagikan Registry ini ke teman kalian!</Text>
+            <RegistryMagicLinkRow/>
+            <Image
+              src={kamalan_white_icon}
+              alt="icon"
+              className="mt-10"
+            />
           </Box>
         </Box>
       </Box>
